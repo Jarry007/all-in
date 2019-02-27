@@ -1,0 +1,17 @@
+{% extends "template.html"%}
+
+{% block title%}
+文章列表
+{% endblock %}
+
+{% block page_content %}
+<ol>
+    {% for post in posts %}
+    <li><p>
+        {{post.tittle}}
+    </p>
+        <a href="{{url_for('delete',id=post.id)}}">删除</a>
+    </li>
+    {%endfor%}
+</ol>
+{% endblock %}

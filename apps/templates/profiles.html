@@ -1,0 +1,60 @@
+{% extends "test.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block tittle %}
+<title>{{profile.nickname}}的个人主页</title>
+{% endblock %}
+
+{% block title%}
+<img src="{{user.avatar}}" width="180" height="180" class="circle">
+{%  if current_user.is_authenticated %}
+{% if user!= current_user%}
+<div class="page-header">
+    <h1>
+        {{profile.nickname}}-Profile
+        {% if not current_user.is_following(user) %}
+        <a href="{{url_for('follow',username=user.username)}}" class="more_btn">关注</a>
+        {% else %}
+        <a href="{{url_for('unfollow',username=user.username)}}" class="more_btn">取消关注</a>
+        {% endif %}
+    </h1>
+</div>
+{% endif %}
+{% else %}
+<a href="{{url_for('follow',username=user.username)}}" class="more_btn">关注</a>
+{% endif %}
+{% endblock %}
+
+{% block post %}
+<div class="col-md-2">
+    <a href="{{url_for('followers',username=user.username)}}">
+        关注者：<span class="badge">{{user.followers.count()}}</span>
+    </a>
+    <a href="{{url_for('followed_by',username=user.username)}}">
+        关注：<span class="badge">{{user.followed.count()}}</span>
+    </a>
+    <h3>昵称:
+        {{profile.nickname}}
+    </h3>
+    <h3>性别：{{profile.gender}}</h3>
+    <h3>生日：{{profile.birthday}}</h3>
+    <h3>简介：{{profile.intro}}</h3>
+</div>
+<aside class="col-md-9">
+    <h3>{{user.username}}发布的文章</h3>
+    <ul>
+        {%for art in user.article%}
+        <li class="">
+            <a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a>
+            <span>{{art.addtime}}</span>
+        </li>
+        {% endfor %}
+    </ul>
+
+</aside>
+<div class="col-lg-9">
+</div>
+
+{% endblock%}
+{%block col%}
+{% endblock%}

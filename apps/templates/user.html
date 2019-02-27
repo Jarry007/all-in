@@ -1,0 +1,13 @@
+{% extends "template.html"%}
+
+{% block title%}
+
+{% endblock %}
+
+{% block page_content %}
+{% if current_user.is_authenticated%}
+<h1>hello - {{current_user.username}}</h1>
+{% else %}
+hello - Stranger
+{% endif %}
+    {% endblock %}

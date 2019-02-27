@@ -1,0 +1,35 @@
+{% extends "template.html"%}
+{% import "_macros.html" as mr %}
+
+
+{% block page_content %}
+<div class="page-header">
+    <h1> {{ user.username }}关注的人</h1>
+</div>
+<table class="table table-hover followers">
+    <thead>
+    <tr>
+        <th>用户</th>
+        <th>关注时间</th>
+    </tr>
+    </thead>
+    {% for follow in follows %}
+
+    <tr>
+        <td>
+            <a href="{{ url_for('profileid', username = follow.followed.username) }}">
+                <img class=" img-circle" src="{{ follow.followed.avatar }}" width="70" height="70">
+                {{ follow.followed.username }}
+            </a>
+        </td>
+        <td>
+            {{ follow.times }}
+            </a>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+</table>
+
+{% endblock %}

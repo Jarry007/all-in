@@ -1,0 +1,159 @@
+{% extends "test.html" %}
+{% block tittle %}
+<title>{{posts.tittle}}</title>
+{% endblock %}
+{% block head%}
+{{super()}}
+<link rel="stylesheet" type="text/css"
+      href="{{url_for('static',filename='ckeditor/plugins/codesnippet/lib/highlight/styles/docco.css')}}">
+<script src="{{url_for('static',filename='ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js')}}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block title%}
+<img src="{{user.avatar}}" width="180" height="180" class="circle">
+<h5><p><a href="{{url_for('profileid',username=user.username)}}">{{user.username}}</a></p>
+    {% if current_user.is_authenticated %}
+
+
+    {% if not current_user.is_following(user) %}
+    <a href="{{url_for('follow',username=user.username)}}" class="more_btn">关注</a>
+    {% else %}
+    <a href="{{url_for('unfollow',username=user.username)}}" class="more_btn">取消关注</a>
+
+
+    {% endif %}
+    {% else %}
+    <a href="{{url_for('follow',username=user.username)}}" class="more_btn">Follow</a>
+    {% endif %}
+</h5>
+{% endblock %}
+
+{% block post %}
+<div class="col-lg-10">
+    <div class="page-header">
+        <h3>{{posts.tittle}}</h3>
+    </div>
+    <div> {{posts.addtime}}</div>
+    <div class="blog_text">
+        {% if posts.body_html %}
+        {{ posts.body_html |safe }}
+        {% else %}
+        {{posts.body}}
+        {% endif %}
+    </div>
+    <div class="zan_like">
+        赞过的人：
+        <ul>
+            {% for h in posts.likes%}
+            <li><img src="{{h.author.avatar}}"></li>
+            {% endfor%}
+        </ul>
+        </div>
+</div>
+{% endblock %}
+
+{%block col%}
+<div class="col-lg-2">
+    <div class="nav-right"><img class="img-fluid" src="{{url_for('static',filename='img/add.jpg')}}" alt="">
+        <div>
+            <ul>
+                {% if current_user.is_authenticated %}
+                {% if current_user.is_liked(posts.id)%}
+                <li><a class="more_btn" href="{{url_for('unlike', id=posts.id)}}">取消赞</a>{{posts.likes.count()}}</li>
+                {% else %}
+                <li><a class="more_btn" href="{{url_for('like', id=posts.id)}}"><i class="fa fa-heart-o"></i>赞</a>{{posts.likes.count()}}</li>
+                {% endif %}
+                 {% else %}
+                <li><a class="more_btn" href="{{url_for('like', id=posts.id)}}"><i class="fa fa-heart-o"></i></a>{{posts.likes.count()}}</li>
+                {% endif %}
+                <li><a class="more_btn"><i class="fa fa-bookmark-o" aria-hidden="true"></i>收藏</a>{{posts.collections}}
+                </li>
+                <li><i class="fa fa-eye" aria-hidden="true"> 浏览量:<span>{{posts.view}}</span></i></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock%}
+
+{% block comments%}
+<div class="blog_main_area p_100">
+    <div class="container">
+        <div class="card">
+            <div class="card-header" role="tab" id="headingOne">
+                {% if current_user.is_authenticated %}
+                <a data-toggle="collapse" data-target="#collapseComment" href="#">
+                    点此查看评论{{posts.comments.count()}}
+                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </a>
+                {% else%}
+                <a href="{{url_for('comment',id=posts.id)}}">
+                    登录后查看评论{{posts.comments.count()}}
+                    <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </a>
+                {% endif%}
+            </div>
+
+            <div id="collapseComment" class="collapse in">
+                <div class="blog_comment">
+                    <ul>
+                        {% for comment in comments %}
+                        <li>
+                            <img src="{{comment.author.avatar}}"><span>
+                            <a href="{{url_for('profileid',username=comment.author.username)}}">{{comment.author.username}}</a>
+                            {% if comment.user_id ==user.uuid %}
+                                (作者)
+                                {%endif%}
+                            </span>评论于：
+                            <span> {{comment.time}}</span>
+                            {% if comment.user_id ==current_user.uuid %}
+                            <a href="{{url_for('delete_comment',id=posts.id,comment=comment.id)}}"
+                               class="btn blog_comment_buttons">删除</a>
+                            {% else %}
+                            <a href="#" class="btn blog_comment_buttons">举报</a>
+                            {% endif %}
+                            <a href="url_for('reply_comment', id=posts.id,comment=comment.id)"
+                               class="btn blog_comment_button" data-toggle="collapse"
+                               data-target="#{{comment.id}}">回复</a>
+
+                            <div class="blog_comment_p">{{comment.body}}
+                                <div id="{{comment.id}}" class="collapse ">
+                                    <form class="input-group"
+                                          action="{{url_for('reply_comment',id=posts.id,comment=comment.id)}}"
+                                          method="post">
+                                        {{replies.csrf_token}}
+                                        {{replies.body(class='form-control')}}
+                                        <span class="input-group-btn">
+						{{replies.submit(class='btn btn-info',placeholder='点此输入评论')}}
+                                        </span>
+                                    </form>
+                                </div>
+                            </div>
+                            {% for r in comment.reply%}
+                            <div class="blog_reply">
+                                   <span>
+                            <a href="{{url_for('profileid',username=r.author.username)}}">{{r.author.username}}</a></span>回复
+                                <span>
+                            <a href="{{url_for('profileid',username=comment.author.username)}}">{{comment.author.username}}</a></span>
+                                <span> {{r.time}}</span>
+                                <p>
+                                    {{r.body}}
+                                </p>
+                            </div>
+                            {% endfor%}
+                        </li>
+                        {% endfor%}
+                    </ul>
+                    <form class="input-group" action="{{url_for('comment',id=posts.id)}}" method="post">
+                        {{form.csrf_token}}
+                        {{form.body(class='form-control')}}
+                        <span class="input-group-btn">
+						{{form.submit(class='btn btn-info',placeholder='点此输入评论')}}
+                                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

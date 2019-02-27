@@ -1,0 +1,12 @@
+{% extends "ckdemo.html"%}
+
+{% block content %}
+{% block page_content %}
+<div class="page-head">
+    <h2>{{title}}</h2>
+</div>
+ <div class="page">
+     {{ body |safe }}
+ </div>
+{% endblock%}
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "test.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block tittle %}
+<title>Register</title>
+{% endblock %}
+
+{% block title%}
+<h2>register</h2>
+<p>please register</p>
+{% endblock %}
+{%block row%}
+<div class="col-lg-6">
+    {{wtf.quick_form(form)}}
+</div>
+{% endblock %}
+{%block col%}
+{% endblock%}

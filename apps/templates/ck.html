@@ -1,0 +1,43 @@
+{% extends "test.html"%}
+{% block tittle %}
+<title>写博客</title>
+{% endblock %}
+{% block head%}
+{{super()}}
+<script src="{{url_for('static',filename='ckeditor/ckeditor.js')}}"></script>
+<script src="{{url_for('static',filename='ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js')}}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block title%}
+<h3>写博客</h3>
+<p>愿所有美好都能被记录</p>
+{% endblock %}
+
+{% block post %}
+<div class="col-lg-10">
+    <form method="post" class="form" action="/e" enctype="multipart/form-data">
+        {{form.csrf_token}}
+        <div class="form-group  required">
+
+            <label class="control-label">{{form.pic.label}}</label>{{form.pic}}
+            <p>
+                <label class="control-label">{{form.title.label}}</label></p>{{form.title(class='form-control')}}
+            <label class="control-label">{{form.body.label}}</label>
+            {{form.body(class='ckeditor')}}
+            <script>
+                  CKEDITOR.replace( 'body' );
+            </script>
+            {{form.submit(class='btn btn-success')}}
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{%block col%}
+{% endblock %}
+
+
+
+
+

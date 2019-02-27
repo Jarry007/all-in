@@ -1,0 +1,27 @@
+{% extends "bootstrap/base.html"%}
+{% block head%}
+{{super()}}
+<link href="{{url_for('static',filename='ckeditor/plugins/codesnippet/lib/highlight/styles/default.css',_external=True)}}"  rel="stylesheet" >
+<script src="{{url_for('static',filename='ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js')}}"></script>
+<script src="{{url_for('static',filename='ckeditor/ckeditor.js')}}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+
+{% block content %}
+{% block page_content %}
+<div class="container">
+<form method="post" class="form" action="/ckdemo">
+    <div class="form-group  required">
+        {{form.csrf_token}}
+    <label class="control-label">{{form.title.label}}</label>{{form.title(class='form-control')}}
+        <label class="control-label">{{form.body.label}}</label>
+            {{form.body}}
+            <script>
+                CKEDITOR.replace('body');
+            </script>
+    {{form.submit(class='btn btn-success')}}
+    </div>
+        </form>
+</div>
+{% endblock%}
+{% endblock %}

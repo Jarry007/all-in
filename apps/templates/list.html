@@ -1,0 +1,63 @@
+{% extends "template.html"%}
+{% import "_macros.html" as mr%}
+{% block title%}
+数据表
+{% endblock %}
+
+{% block page_content %}
+
+<div class="table-responsive">
+  <table class="table">
+    <caption>数据表</caption>
+    <thead>
+      <tr>
+        <th>id</th>
+        <th>username</th>
+        <th>pwd</th>
+          <th>email</th>
+        <th>addtime</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for i in listt%}
+      <tr>
+        <td>{{i.id}}</td>
+        <td>{{i.username}}</td>
+        <td>{{i.uuid}}</td>
+          <td>{{i.email}}</td>
+        <td>{{i.addtime}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<div class="table-responsive">
+  <table class="table">
+    <caption>记录表</caption>
+    <thead>
+      <tr>
+        <th>id</th>
+
+        <th>ip</th>
+        <th>adders</th>
+        <th>agent</th>
+        <th>time</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for j in ip%}
+      <tr>
+        <td>{{j.id}}</td>
+        <td>{{j.ip}}</td>
+        <td>{{j.adders}}</td>
+        <td>{{j.agent}}</td>
+        <td>{{j.time}}</td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+{{ mr.pagination_widget(pagination,'listSql')}}
+    {% endblock %}

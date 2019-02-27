@@ -1,0 +1,28 @@
+{% extends "template.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block title %}
+Profile
+{% endblock %}
+{% block page_content %}
+<div class="page-header">
+    <h1>
+       {{current_user.username}}-Profiles
+    </h1>
+</div>
+
+<div class="col-md-6">
+    {{wtf.quick_form(form)}}
+</div>
+<div class="col-md-6">
+    {% for i in current_user.profile %}
+    <h3>昵称:
+    {{i.nickname}}
+    </h3>
+    <h3>性别：{{i.gender}}</h3>
+    <h3>生日：{{i.birthday}}</h3>
+    <h3>简介：{{i.intro}}</h3>
+    <img src="{{current_user.avatar}}" width="140" height="140">
+    {% endfor %}
+</div>
+
+{% endblock%}

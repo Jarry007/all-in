@@ -1,0 +1,35 @@
+{% extends "test.html" %}
+
+{% import "_macros.html" as mr%}
+
+{% block post %}
+<div class="col-lg-9">
+    {% for post in posts %}
+
+    <div class="blog_main_item">
+        <div class="blog_img">
+            <img class="img-fluid" src="{{url_for('static',filename='img/blog/blog-2.jpg')}}" alt="">
+            <div class="blog_date">
+                <i class="fa fa-heart-o" aria-hidden="true">{{post.likes.count()}}</i><br>
+                <i class="fa fa-bookmark-o" aria-hidden="true">{{post.collections}}</i>
+                <i class="fa fa-eye" aria-hidden="true">{{post.view}}</i>
+            </div>
+        </div>
+        <div class="blog_text">
+            <a href="{{url_for('posts',id=post.id)}}"><h4>{{post.tittle}}</h4></a>
+            <div class="blog_author">
+                <a href="{{url_for('profileid',username=post.role.username)}}">作者:{{post.role.username}}</a>
+                <a>{{post.addtime}}</a>
+            </div>
+            <div>
+                <a class="solid_btn" href="{{url_for('posts',id=post.id)}}">更多</a>
+            </div>
+        </div>
+    </div>
+
+
+    {%endfor%}
+
+    {{ mr.pagination_widget(article,'friends')}}
+</div>
+{% endblock %}
