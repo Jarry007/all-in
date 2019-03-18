@@ -10,8 +10,16 @@ def md5(data):
     md.update(data.encode('utf-8'))
     data = md.hexdigest()
     return data
+num = 1
+while num <20:
+    name = faker.name()
+    username = faker.user_name()
+    pwd = md5(str(num))
+    num +=1
+    print('姓名：'+name)
+    print('用户名：'+username)
+    print('pwd：'+pwd)
 """
-
 num = 1
 while num < 10:
     #role = Role.query.filter_by(id=2ecfa8fcf29344899654acaa9fa4c7f2).first()
@@ -49,7 +57,6 @@ def avatar(email):
     a_url = 'https://www.gravatar.com/avatar/{hash}?s={size}&d={default}&r={r}'.format(hash=hash,size=size,default=default,r=r)
     return a_url
     
-
 follow = Role.query.filter_by(username='111').first()
 follower = follow.followers
 followed = follow.followed
@@ -65,7 +72,6 @@ list = set(list1).intersection(set(list2))
 if '222' in list:
     print('222in')
 print(list)
-
 def friends_circle(func):
 
     @wraps(func)
@@ -115,7 +121,7 @@ def kk():
     print(s)
     return 'd'
 kk()
-"""
+
 
 def friends_circle():
     follow = Role.query.filter_by(uuid='1f675baf550d4bf09bf4a2ea422c3572').first()
@@ -134,3 +140,4 @@ def friends_circle():
     print(r.items)
     return friend_list
 friends_circle()
+"""

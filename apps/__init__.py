@@ -7,6 +7,7 @@ import os
 from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class,ALL
 from flask_ckeditor import CKEditor
 from faker import Faker
+from flask_cors import CORS
 
 def creat_folder(folder_path):
     if not os.path.exists(folder_path):
@@ -46,6 +47,7 @@ bootstrap = Bootstrap(app)
 pagedown = PageDown(app)
 loginmanager = LoginManager(app)
 ck = CKEditor(app)
+cors = CORS(app)
 loginmanager.session_protection = 'strong'
 loginmanager.login_view = 'user_login'
 

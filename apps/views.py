@@ -1,6 +1,6 @@
 from flask_uploads import configure_uploads
 from apps import app,db,pagedown,loginmanager,ck,creat_folder,STATIC_DIR
-from flask import render_template,url_for,flash,request,redirect,session
+from flask import render_template, url_for, flash, request, redirect, session, jsonify, json
 from flask_script import Manager
 from flask_mail import Mail,Message
 import time,random,os
@@ -15,6 +15,7 @@ from PIL import Image
 from qqwry import QQwry
 from .qqwe import drow
 from werkzeug.utils import secure_filename
+
 
 
 
@@ -415,6 +416,22 @@ def unlike(id):
     return redirect(url_for('posts', id=id))
 
 
+@app.route('/vue' ,methods=['GET','POST'])
+def vue_say():
+    listt = Role.query.all()
+    ip = IpList.query.order_by(IpList.time.desc()).all()
+    t = {}
+    for i in ip:
+        t['ip'] = i.ip
+        t['adress'] = i.adders
+        print(t)
+    return jsonify(t)
 
-
-
+@app.route('/vue/list', methods=['GET','POST'])
+def vue_list():
+   # listt = Role.query.all()
+    ip = IpList.query.order_by(IpList.time.desc()).all()
+    t = []
+    for i in ip:
+        t.append(i.to_json())
+    return jsonify(t)

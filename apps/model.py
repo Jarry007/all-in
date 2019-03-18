@@ -1,4 +1,7 @@
 from datetime import datetime
+
+from flask import json
+
 from apps import db
 import bleach
 from flask_login import UserMixin
@@ -122,6 +125,13 @@ class Likes(db.Model):
     user_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'))
     time = db.Column(db.DATETIME, default=datetime.now)
 
+    def to_json(self):
+        dict = self.__dict__
+        if 'sa_instance_state' in dict:
+            del dict['sa_instance_state']
+
+        return dict
+
 
 class UserProfile(db.Model):
     __tablename__= 'userprofile1'
@@ -140,6 +150,13 @@ class IpList(db.Model):
     agent = db.Column(db.Text)
     adders = db.Column(db.String(300))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
+
+    def to_json(self):
+        dict = self.__dict__
+        if "_sa_instance_state" in dict:
+            del dict["_sa_instance_state"]
+        return dict
+
 
 class Comment(db.Model):
     __tablename__ = 'comments1'
