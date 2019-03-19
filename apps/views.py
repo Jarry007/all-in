@@ -435,3 +435,13 @@ def vue_list():
     for i in ip:
         t.append(i.to_json())
     return jsonify(t)
+
+@app.route('/mp/posts',methods=['POST','GET'])
+def get_posts():
+    posts_ = Article.query.all()
+    p = []
+    for i in posts_:
+        p.append(i.to_dict())
+
+    print('article get success!')
+    return jsonify(p)

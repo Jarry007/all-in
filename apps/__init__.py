@@ -20,7 +20,7 @@ STATIC_DIR=os.path.join(APP_DIR, 'static')
 
 
 app = Flask(__name__)
-#app.debug=True
+app.debug=True
 app.config['SECRET_KEY'] = 'jarry'
 
 app.config.update(

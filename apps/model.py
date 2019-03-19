@@ -102,6 +102,32 @@ class Article(db.Model):
     likes = db.relationship('Likes', backref='article', lazy='dynamic')
     comments = db.relationship('Comment', backref='article', lazy='dynamic')
 
+#关系型数据表转Json时怎么转，在转化韩式中使用函数
+    def to_dict(self):
+        data  = {
+            'id' :self.id,
+            'uuid':self.uuid,
+            'tittle':self.tittle,
+            'view_count':self.view,
+            'show':self.show,
+            'body':self.body,
+            'body_html':self.body_html,
+            'timestamp':self.addtime,
+            'like_count':self.likes.count(),
+            'comment':self.comments.count(),
+            'link_':{
+                'avatar' :self.role.avatar,
+                'username':self.role.username
+            }
+        }
+        return data
+
+    def to_json(self):
+        dict = self.__dict__
+        if 'sa_instance_status' in dict :
+            del dict['sa_instance_status']
+            return dict
+
     @staticmethod
     def on_change_body(target,value,oldvalue,initator):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
@@ -116,6 +142,9 @@ class Article(db.Model):
             markdown(value,output_format=('html'),
                      tags =allowed_tags, strip=True, attributes=allowed_attrs)
         ))
+
+
+
 db.event.listen(Article.body,'set',Article.on_change_body)
 
 class Likes(db.Model):
@@ -129,7 +158,6 @@ class Likes(db.Model):
         dict = self.__dict__
         if 'sa_instance_state' in dict:
             del dict['sa_instance_state']
-
         return dict
 
 
