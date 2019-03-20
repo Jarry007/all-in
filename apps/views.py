@@ -439,9 +439,15 @@ def vue_list():
 @app.route('/mp/posts',methods=['POST','GET'])
 def get_posts():
     posts_ = Article.query.all()
-    p = []
-    for i in posts_:
-        p.append(i.to_dict())
+    return jsonify({
+        'post':[post.to_dict() for post in posts_]
+    })
+@app.route('/get_json_comment/<article_id>',methods=['POST','GET'])
+def get_comment_json(article_id):
+    comment = Comment.query.filter_by(article_id=article_id)
+    print('success')
+    c = []
+    for i in comment:
+        c.append((i.to_json()))
 
-    print('article get success!')
-    return jsonify(p)
+    return jsonify(c)

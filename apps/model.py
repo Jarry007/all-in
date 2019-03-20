@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from flask import json
+from flask import url_for
 
 from apps import db
 import bleach
@@ -118,15 +118,25 @@ class Article(db.Model):
             'link_':{
                 'avatar' :self.role.avatar,
                 'username':self.role.username
-            }
+            },
+            'comments':url_for('get_comment_json',article_id=self.id)
         }
         return data
 
     def to_json(self):
-        dict = self.__dict__
-        if 'sa_instance_status' in dict :
-            del dict['sa_instance_status']
-            return dict
+        for i in self :
+            print(i)
+
+        return
+    '''
+    json 返回一个comment，里面的
+    comments 无法调用函数，不对，comments为什么只能生成一个路由，却无法返回函数。
+    难道需要使用蓝本？还是我哪里出问题了
+    '''
+
+
+
+
 
     @staticmethod
     def on_change_body(target,value,oldvalue,initator):
@@ -142,8 +152,6 @@ class Article(db.Model):
             markdown(value,output_format=('html'),
                      tags =allowed_tags, strip=True, attributes=allowed_attrs)
         ))
-
-
 
 db.event.listen(Article.body,'set',Article.on_change_body)
 
@@ -195,6 +203,20 @@ class Comment(db.Model):
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
     reply = db.relationship('Reply', backref='comments', lazy='dynamic')
 
+    def to_json(self):
+        data = {
+            'id':self.id,
+            'article_id':self.article_id,
+            'user_id':self.user_id,
+            'body':self.body,
+            'time':self.time,
+            '_link':{
+                'avatar':self.author.avatar,
+                'username':self.author.username
+            }
+        }
+        return data
+
 class Reply(db.Model):
     __tablename__ = 'replies1'
     id = db.Column(db.Integer, primary_key=True)
@@ -202,6 +224,17 @@ class Reply(db.Model):
     replies_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'))
     body = db.Column(db.String(100))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
+
+    def to_josn(self):
+        data = {
+            'id':self.id,
+            'comment_id':self.comment_id,
+            'replies_id':self.replies_id,
+            'body':self.body,
+            'time':self.time
+        }
+
+        return data
 
 
 
