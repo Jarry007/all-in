@@ -112,7 +112,7 @@
                             {% else %}
                             <a href="#" class="btn blog_comment_buttons">举报</a>
                             {% endif %}
-                            <a href="url_for('reply_comment', id=posts.id,comment=comment.id)"
+                            <a href="{{url_for('reply_comment', id=posts.id,comment=comment.id)}}"
                                class="btn blog_comment_button" data-toggle="collapse"
                                data-target="#{{comment.id}}">回复</a>
 

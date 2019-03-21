@@ -381,7 +381,7 @@ def reply_comment(id, comment):
     form = ReplyForm()
     if form.validate_on_submit():
         replies = Reply()
-        replies.comment_id = id
+        replies.comment_id = comment
         replies.replies_id = current_user.uuid
         replies.body = form.body.data
         db.session.add(replies)
@@ -440,14 +440,42 @@ def vue_list():
 def get_posts():
     posts_ = Article.query.all()
     return jsonify({
-        'post':[post.to_dict() for post in posts_]
+        'posts':[post.to_dict() for post in posts_]
     })
+
 @app.route('/get_json_comment/<article_id>',methods=['POST','GET'])
 def get_comment_json(article_id):
-    comment = Comment.query.filter_by(article_id=article_id)
-    print('success')
-    c = []
-    for i in comment:
-        c.append((i.to_json()))
+    comments = Comment.query.filter_by(article_id=article_id)
+    return jsonify({
+        'comment':[comment.to_json() for comment in comments]
+    })
 
-    return jsonify(c)
+@app.route('/get_json_reply/<comment>',methods=['POST','GET'])
+def get_json_reply(comment):
+    reply = Reply.query.filter_by(comment_id=comment)
+    print('reply get success!')
+    r = []
+    for i in reply:
+        r.append(i.to_json())
+    return jsonify(r)
+
+@app.route('/request_data',methods=['POST','GET'])
+def request_data():
+    data = request.values.get('data')
+    print(data)
+    return redirect(url_for('get_json_reply',comment=data))
+
+@app.route('/ttt',methods=['GET'])
+def ttt():
+    posts = Article.query.all()
+    t=[]
+    r = []
+    for i in posts:
+        for j in i.comments.all():
+            t.append(j.to_json())
+
+    print(t)
+
+    return jsonify({
+        'comment':t
+    })

@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from flask import jsonify
 from flask import url_for
 
 from apps import db
@@ -119,9 +119,16 @@ class Article(db.Model):
                 'avatar' :self.role.avatar,
                 'username':self.role.username
             },
-            'comments':url_for('get_comment_json',article_id=self.id)
+            'comments':url_for('get_comment_json',article_id=self.id),
+            'new_comment':{'o':self.filter_c}
+            # 这里是一个路由，怎样让他返回一个查询结果，而不仅仅是一个路由.添加函数，使其返回。在
         }
         return data
+
+    @property
+    def filter_c(self):
+        comments=Comment.query.filter_by(article_id=self.id).all()
+        return [comment.to_json() for comment in comments]
 
     def to_json(self):
         for i in self :
@@ -210,6 +217,7 @@ class Comment(db.Model):
             'user_id':self.user_id,
             'body':self.body,
             'time':self.time,
+            'reply':url_for('get_json_reply',comment=self.id),
             '_link':{
                 'avatar':self.author.avatar,
                 'username':self.author.username
@@ -225,13 +233,18 @@ class Reply(db.Model):
     body = db.Column(db.String(100))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
 
-    def to_josn(self):
+    def to_json(self):
         data = {
             'id':self.id,
             'comment_id':self.comment_id,
             'replies_id':self.replies_id,
             'body':self.body,
-            'time':self.time
+            'time':self.time,
+            '_link':{
+                'avatar':self.author.avatar,
+                'username':self.author.username
+            }
+
         }
 
         return data
