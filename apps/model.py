@@ -112,7 +112,7 @@ class Article(db.Model):
             'show':self.show,
             'body':self.body,
             'body_html':self.body_html,
-            'timestamp':self.addtime,
+            'time':self.addtime,
             'like_count':self.likes.count(),
             'comment':self.comments.count(),
             'link_':{
@@ -120,7 +120,7 @@ class Article(db.Model):
                 'username':self.role.username
             },
             'comments':url_for('get_comment_json',article_id=self.id),
-            'new_comment':{'o':self.filter_c}
+            'new_comment':{'comments':self.filter_c}
             # 这里是一个路由，怎样让他返回一个查询结果，而不仅仅是一个路由.添加函数，使其返回。在
         }
         return data
@@ -130,20 +130,11 @@ class Article(db.Model):
         comments=Comment.query.filter_by(article_id=self.id).all()
         return [comment.to_json() for comment in comments]
 
-    def to_json(self):
-        for i in self :
-            print(i)
-
-        return
     '''
     json 返回一个comment，里面的
     comments 无法调用函数，不对，comments为什么只能生成一个路由，却无法返回函数。
     难道需要使用蓝本？还是我哪里出问题了
     '''
-
-
-
-
 
     @staticmethod
     def on_change_body(target,value,oldvalue,initator):
@@ -221,9 +212,20 @@ class Comment(db.Model):
             '_link':{
                 'avatar':self.author.avatar,
                 'username':self.author.username
+            },
+            'replies':{
+                'r':self.filter_reply
             }
         }
         return data
+    #这里必须返回值是一个list,否则后续json话时无法成功
+    @property
+    def filter_reply(self):
+        reply = Reply.query.filter_by(comment_id=self.id).all()
+        return [r.to_json() for r in reply]
+
+
+
 
 class Reply(db.Model):
     __tablename__ = 'replies1'
@@ -238,6 +240,7 @@ class Reply(db.Model):
             'id':self.id,
             'comment_id':self.comment_id,
             'replies_id':self.replies_id,
+
             'body':self.body,
             'time':self.time,
             '_link':{
