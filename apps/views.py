@@ -1,3 +1,4 @@
+import requests
 from flask_uploads import configure_uploads
 from apps import app,db,pagedown,loginmanager,ck,creat_folder,STATIC_DIR
 from flask import render_template, url_for, flash, request, redirect, session, jsonify, json
@@ -5,6 +6,8 @@ from flask_script import Manager
 from flask_mail import Mail,Message
 import time,random,os
 from threading import Thread
+
+from apps.WXBizDataCrypt import WXBizDataCrypt
 from .model import Role, UserProfile, Article, IpList, Comment, Reply,Follow,Likes
 import hashlib,re
 from .forms import NameForm, Login, Register, Profile, photosSet,PostForm,CommentForm,ReplyForm
@@ -78,8 +81,9 @@ def send_async_email(app,send):
 def index():
 
     page = request.args.get('page', 1, type=int)
-    article = Article.query.paginate(page, per_page=10, error_out=False)
+    article = Article.query.order_by(Article.id.desc()).paginate(page, per_page=10, error_out=False)
     news = Article.query.order_by(Article.id.desc()).limit(5).all()
+    hot = Article.query.order_by(Article.view.desc()).limit(5).all()
     posts = article.items
     ip = str(request.remote_addr)
     agen = str(request.user_agent)
@@ -88,7 +92,7 @@ def index():
     list.agent = agen
     db.session.add(list)
     db.session.commit()
-    return render_template('index.html', posts=posts, news=news, article=article)
+    return render_template('index.html', posts=posts, news=news, article=article, hot=hot)
 
 @app.route('/youcanyoudo',methods=['POST','GET'])
 def dele():
@@ -172,7 +176,8 @@ def regist():
             users.username = form.username.data
             users.pwd = md5(form.password.data)
             users.email = form.email.data
-            users.avatar = default_avatar(form.email.data)
+            users.default_avatar=default_avatar(md5(form.email.data))
+
             db.session.add(users)
             db.session.commit()
             login_user(users, True)
@@ -209,28 +214,31 @@ def profile():
         fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
         avata =form.avatar.data
         new = compression_img(avata)
-        creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], current_user.uuid))
-        pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], current_user.uuid, fn)
+        creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
+        pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid), fn)
+        print(pic_dir)
         new.save(pic_dir)
+
         header = Role.query.filter_by(uuid=current_user.uuid).first()
-        folder = photosSet.url(current_user.uuid)
+        folder = 'uploads/'+md5(current_user.uuid)
         header.avatar = folder+'/'+fn
+
         if header.profile:
             proid = UserProfile.query.filter_by(user_id=current_user.uuid).first()
             proid.nickname = form.nickname.data
             proid.gender = form.gender.data
             proid.intro = form.intro.data
-            proid.birthday = form.birthday.data
+            proid.birthday = request.form.get('birthday')
             db.session.commit()
         else:
             user.user_id = current_user.uuid
             user.nickname = form.nickname.data
-            user.birthday = form.birthday.data
+            user.birthday = request.form.get('birthday')
             user.gender = form.gender.data
             user.intro = form.intro.data
             db.session.add(user)
             db.session.commit()
-        return 'success'
+        return redirect(url_for('profile'))
     return render_template('profile.html', form=form)
 
 
@@ -243,20 +251,18 @@ def ckeditor():
         pic_ = form.pic.data
         if pic_ is not None:
             fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
-            creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], current_user.uuid))
-            pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], current_user.uuid, fn)
+            creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
+            pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid), fn)
             print (pic_dir)
             pic = Image.open(pic_)
             pic.save(pic_dir)
-
-            folder = photosSet.url(current_user.uuid)
+            folder = 'uploads/'+md5(current_user.uuid)
             post.img = folder + '/' + fn
 
         post.uuid = current_user.uuid
         post.tittle = form.title.data
         post.body = form.body.data
-        print(form.body.data)
-        print(pic_)
+
         obj = post.body
         obj = re.compile('</?\w+[^>]*>').sub('', obj)
         post.show = obj
@@ -286,10 +292,7 @@ def profileid (username):
     user = Role.query.filter_by(username=username).first()
 
     profiles = UserProfile.query.filter_by(user_id=user.uuid).first()
-
     return render_template('profiles.html', user=user, profile=profiles)
-
-
 
 @app.route('/ckdemo',methods=['POST','GET'])
 def ckdemo():
@@ -439,8 +442,10 @@ def vue_list():
 @app.route('/mp/posts',methods=['POST','GET'])
 def get_posts():
     posts_ = Article.query.all()
+    new_ = Article.query.order_by(Article.view.desc()).limit(4).all()
     return jsonify({
-        'posts':[post.to_dict() for post in posts_]
+        'posts':[post.to_dict() for post in posts_],
+        'news':[new.to_dict() for new in new_]
     })
 
 @app.route('/get_json_comment/<article_id>',methods=['POST','GET'])
@@ -479,3 +484,43 @@ def ttt():
     return jsonify({
         'comment':t
     })
+@app.route('/mp/like', methods=['GET','POST'])
+def mp_like():
+    info = request.values.get('info')
+    appid = 'wx41756aa8716ef1b9'
+    secret = '5706fe73860da62c46b8ce392d3eec6f'
+    user_info = json.loads(info)
+    code = user_info['code']
+    url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code' % (
+        appid, secret, code)
+    data = requests.get(url).text
+    session_ = json.loads(data)
+    session_key = session_['session_key']
+    encryptedData = user_info['encryptedData']
+    iv = user_info['iv']
+    pc = WXBizDataCrypt(appid, session_key)
+    print(session_key)
+
+    return pc.decrypt(encryptedData, iv)
+
+@app.route('/guaguaka',methods=['POST','GET'])
+def guaguaka():
+    return render_template('guaguaka.html')
+@app.route('/danmu', methods=['POST','GET'])
+def danmu():
+    return render_template('danmu.html')
+@app.route('/verification',methods=['POST','GET'])
+def verification():
+    return render_template('verification.html')
+@app.route('/shake',methods=['POST','GET'])
+def shake():
+    return render_template('shake.html')
+@app.route('/loading',methods=['POST','GET'])
+def loading():
+    return render_template('pin.html')
+@app.route('/write_mail',methods=['POST','GET'])
+def write_mail():
+    return render_template('oneforone.html')
+
+
+

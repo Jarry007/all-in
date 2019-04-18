@@ -11,7 +11,7 @@
             {% if post.img == None%}
             <img class="img-fluid" src="{{url_for('static',filename='img/blog/blog-2.jpg')}}" alt="">
             {% else %}
-            <img class="img-fluid" src="{{post.img}}" alt="">
+            <img class="img-fluid" src="{{url_for('static',filename=post.img)}}" alt="">
             {% endif%}
             <div class="blog_date">
                 <i class="fa fa-heart-o" aria-hidden="true">{{post.likes.count()}}</i><br>

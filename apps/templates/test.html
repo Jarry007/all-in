@@ -10,6 +10,7 @@
     {% block tittle %}
     <title>ALL-IN</title>
     {% endblock %}
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
     <link href="{{url_for('static',filename='css/font-awesome.min.css',_external=True)}}" rel="stylesheet">
     <link href="{{url_for('static',filename='css/bootstrap.min.css',_external=True)}}" rel="stylesheet">
     <link href="{{url_for('static',filename='css/style.css',_external=True)}}" rel="stylesheet">
@@ -34,12 +35,17 @@
                 <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}">主页</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}">广场</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('friends')}}">朋友圈</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{url_for('ckeditor')}}">写博客</a></li>
+                <li class="nav-item"><a class="nav-link" href="{{url_for('ckeditor')}}"><i class="el-icon-edit"></i>写博客</a></li>
                 {% if current_user.is_authenticated %}
                 <li class="nav-item dropdown submenu active">
                     <a class="dropdown-toggle " id="navbarDropdown" role="button" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        <img src="{{current_user.avatar}}" width="30" height="30">
+                        {% if current_user.avatar%}
+                        <img src="{{url_for('static',filename=current_user.avatar)}}" width="30" height="30">
+                        {% else %}
+                        <img src="{{current_user.default_avatar}}" width="30" height="30">
+
+                        {% endif %}
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li class="nav-item"><a class="nav-link" href="{{url_for('profile')}}">个人中心</a></li>
@@ -80,10 +86,7 @@
             {% endblock %}
 
             {% for m in get_flashed_messages() %}
-            <div class="alert alert-default">
-                <button class="close" type="button" data-dismiss="alert">&times;</button>
-                {{m}}
-            </div>
+
             {% endfor %}
 
             {% block post %}
@@ -116,16 +119,12 @@
 
                     <aside class="r_widget tag_widget">
                         <div class="r_w_title">
-                            <h3>标签</h3>
+                            <h3>推荐阅读</h3>
                         </div>
                         <ul>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">JavaScript</a></li>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">Python</a></li>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">node</a></li>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">Mysql</a></li>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">云服务器</a></li>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">Linux</a></li>
-                            <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#">小程序</a></li>
+                            {% for h in hot %}
+                            <li><a href="{{url_for('posts',id=h.id)}}">{{h.tittle}}</a></li>
+                            {% endfor %}
                         </ul>
                     </aside>
 
@@ -192,10 +191,13 @@
         </div>
     </div>
 </footer>
+{% block script%}
 <script src="{{url_for('static',filename='js/jquery-3.2.1.min.js',_external=True)}}"></script>
 <script src="{{url_for('static',filename='js/popper.min.js',_external=True)}}"></script>
 <script src="{{url_for('static',filename='js/bootstrap.min.js',_external=True)}}"></script>
+<script src="//unpkg.com/vue/dist/vue.js"></script>
+<script src="//unpkg.com/element-ui@2.7.2/lib/index.js"></script>
 
-
+{% endblock %}
 </body>
 </html>

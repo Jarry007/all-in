@@ -1,4 +1,4 @@
-{% extends "template.html" %}
+{% extends "test.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block title %}
 Profile
@@ -10,9 +10,35 @@ Profile
     </h1>
 </div>
 
-<div class="col-md-6">
-    {{wtf.quick_form(form)}}
-</div>
+
+
+{% endblock%}
+{% block post %}
+
+<aside class="col-md-9">
+    <form action="/profile" method="post" enctype="multipart/form-data">
+        {{form.csrf_token}}
+    <div class="col-md-6">
+        {{form.avatar.label}}-{{form.avatar}}
+        昵称： {{form.nickname}}
+        性别：{{form.gender}}
+        简洁：{{form.intro}}
+        <div id="birth">
+            <template>
+                <div class="block">
+                    <span class="demonstration">生日：</span>
+                    <el-date-picker
+                            v-model="value1"
+                            type="date"
+                            name='birthday'
+                            placeholder="选择日期">
+                    </el-date-picker>
+                </div>
+            </template>
+        </div>
+        {{form.submit}}
+    </div>
+    </form>
 <div class="col-md-6">
     {% for i in current_user.profile %}
     <h3>昵称:
@@ -21,8 +47,30 @@ Profile
     <h3>性别：{{i.gender}}</h3>
     <h3>生日：{{i.birthday}}</h3>
     <h3>简介：{{i.intro}}</h3>
-    <img src="{{current_user.avatar}}" width="140" height="140">
+    <img src="{{url_for('static',filename=current_user.avatar)}}" width="140" height="140">
     {% endfor %}
 </div>
 
+</aside>
+
+
 {% endblock%}
+{%block col%}
+{% endblock%}
+
+{%block script%}
+{{super()}}
+<script>
+var Main = {
+    data() {
+      return {
+        value1: '',
+      };
+    }
+  };
+var Ctor = Vue.extend(Main)
+new Ctor().$mount('#birth')
+
+    </script>
+{% endblock %}
+

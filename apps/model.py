@@ -1,7 +1,5 @@
+import hashlib
 from datetime import datetime
-from flask import jsonify
-from flask import url_for
-
 from apps import db
 import bleach
 from flask_login import UserMixin
@@ -20,7 +18,8 @@ class Role(UserMixin,db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     pwd = db.Column(db.String(80),  nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    avatar = db.Column(db.String(240), default='/static/img/ad.jpg')
+    default_avatar = db.Column(db.String(240))
+    avatar = db.Column(db.String(240))
     addtime = db.Column(db.DATETIME, index=True, default=datetime.now)
     article = db.relationship('Article', backref='role')
     profile = db.relationship('UserProfile', backref='role')
@@ -33,6 +32,16 @@ class Role(UserMixin,db.Model):
     followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],
                                backref=db.backref('followed', lazy='joined'), lazy='dynamic',
                                cascade='all, delete-orphan')
+    message_sent = db.relationship('Message', foreign_keys='Message.sender_id',
+                                   backref='author', lazy ='dynamic')
+    message_received = db.relationship('Message', foreign_keys='Message.recipient_id',
+                                   backref='recipient', lazy ='dynamic')
+    last_message_read_time = db.Column(db.DATETIME)
+
+    def new_messages(self):
+        last_read_time = self.last_message_read_time or datetime(1900,1,1)
+
+        return Message.query.filter_by(recipient=self).filter(Message.time > last_read_time).count()
 
     def check(self, pwd):#对比输入的密码与原密码
         return self.pwd == pwd
@@ -53,6 +62,7 @@ class Role(UserMixin,db.Model):
         if l:
             db.session.delete(l)
             db.session.commit()
+
     def follow(self, user):
         if not self.is_following(user):
             f = Follow(follower=self, followed=user)
@@ -71,6 +81,7 @@ class Role(UserMixin,db.Model):
 
     def is_followed_by(self, user):
         return self.followers.filter_by(follower_id=user.uuid).first() is not None
+
 
     @property
     def friends_post(self):
@@ -94,7 +105,7 @@ class Article(db.Model):
     tittle = db.Column(db.String(128), nullable=False)
     collections = db.Column(db.Integer, default=0)
     view = db.Column(db.Integer, default=1)
-    img = db.Column(db.String(240), default='/static/img/blog/blog-2.jpg')
+    img = db.Column(db.String(240))
     show = db.Column(db.Text)
     body = db.Column(db.Text)
     body_html = db.Column(db.Text)
@@ -102,7 +113,6 @@ class Article(db.Model):
     likes = db.relationship('Likes', backref='article', lazy='dynamic')
     comments = db.relationship('Comment', backref='article', lazy='dynamic')
 
-#关系型数据表转Json时怎么转，在转化韩式中使用函数
     def to_dict(self):
         data  = {
             'id' :self.id,
@@ -110,6 +120,7 @@ class Article(db.Model):
             'tittle':self.tittle,
             'view_count':self.view,
             'show':self.show,
+            'img':self.img,
             'body':self.body,
             'body_html':self.body_html,
             'time':self.addtime,
@@ -119,7 +130,6 @@ class Article(db.Model):
                 'avatar' :self.role.avatar,
                 'username':self.role.username
             },
-            'comments':url_for('get_comment_json',article_id=self.id),
             'new_comment':{'comments':self.filter_c}
             # 这里是一个路由，怎样让他返回一个查询结果，而不仅仅是一个路由.添加函数，使其返回。在
         }
@@ -129,12 +139,6 @@ class Article(db.Model):
     def filter_c(self):
         comments=Comment.query.filter_by(article_id=self.id).all()
         return [comment.to_json() for comment in comments]
-
-    '''
-    json 返回一个comment，里面的
-    comments 无法调用函数，不对，comments为什么只能生成一个路由，却无法返回函数。
-    难道需要使用蓝本？还是我哪里出问题了
-    '''
 
     @staticmethod
     def on_change_body(target,value,oldvalue,initator):
@@ -150,7 +154,6 @@ class Article(db.Model):
             markdown(value,output_format=('html'),
                      tags =allowed_tags, strip=True, attributes=allowed_attrs)
         ))
-
 db.event.listen(Article.body,'set',Article.on_change_body)
 
 class Likes(db.Model):
@@ -159,12 +162,6 @@ class Likes(db.Model):
     article_id = db.Column(db.Integer, db.ForeignKey('article1.id'))
     user_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'))
     time = db.Column(db.DATETIME, default=datetime.now)
-
-    def to_json(self):
-        dict = self.__dict__
-        if 'sa_instance_state' in dict:
-            del dict['sa_instance_state']
-        return dict
 
 
 class UserProfile(db.Model):
@@ -185,13 +182,6 @@ class IpList(db.Model):
     adders = db.Column(db.String(300))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
 
-    def to_json(self):
-        dict = self.__dict__
-        if "_sa_instance_state" in dict:
-            del dict["_sa_instance_state"]
-        return dict
-
-
 class Comment(db.Model):
     __tablename__ = 'comments1'
     id = db.Column(db.Integer, primary_key=True)
@@ -208,7 +198,6 @@ class Comment(db.Model):
             'user_id':self.user_id,
             'body':self.body,
             'time':self.time,
-            'reply':url_for('get_json_reply',comment=self.id),
             '_link':{
                 'avatar':self.author.avatar,
                 'username':self.author.username
@@ -223,9 +212,6 @@ class Comment(db.Model):
     def filter_reply(self):
         reply = Reply.query.filter_by(comment_id=self.id).all()
         return [r.to_json() for r in reply]
-
-
-
 
 class Reply(db.Model):
     __tablename__ = 'replies1'
@@ -251,6 +237,14 @@ class Reply(db.Model):
         }
 
         return data
+
+class Message(db.Model):
+    __tablename__ = 'message1'
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'), primary_key=True)
+    recipient_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'), primary_key=True)
+    body = db.Column(db.String(140))
+    time = db.Column(db.DATETIME, index=True, default=datetime.now)
 
 
 

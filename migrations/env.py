@@ -73,17 +73,11 @@ def run_migrations_online():
     context.configure(connection=connection,
                       target_metadata=target_metadata,
                       process_revision_directives=process_revision_directives,
-                      compare_type=True,  # 检查字段类型
-                      compare_server_default=True,  # 比较默认值
-                      render_as_batch=True,  # 更改
                       **current_app.extensions['migrate'].configure_args)
-    
+
     try:
         with context.begin_transaction():
             context.run_migrations()
-    except Exception as exception:
-        logger.error(exception)
-        raise exception
     finally:
         connection.close()
 

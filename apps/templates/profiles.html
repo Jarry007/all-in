@@ -1,9 +1,10 @@
 {% extends "test.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
 {% block tittle %}
-<title>{{profile.nickname}}的个人主页</title>
+<title>{{user.username}}的个人主页</title>
 {% endblock %}
+
+
 
 {% block title%}
 <img src="{{user.avatar}}" width="180" height="180" class="circle">
@@ -43,14 +44,27 @@
 <aside class="col-md-9">
     <h3>{{user.username}}发布的文章</h3>
     <ul>
-        {%for art in user.article%}
-        <li class="">
-            <a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a>
-            <span>{{art.addtime}}</span>
-        </li>
-        {% endfor %}
-    </ul>
 
+        <li class="">
+
+            <span></span>
+        </li>
+
+    </ul>
+    <div id="app">
+<div class="block">
+  <el-timeline>
+       {%for art in user.article%}
+    <el-timeline-item timestamp="{{art.addtime}}" placement="top">
+      <el-card>
+        <h6><a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a></h6>
+          <p><i class="fa fa-eye" aria-hidden="true">{{art.view}}</i></p>
+      </el-card>
+    </el-timeline-item>
+ {% endfor %}
+  </el-timeline>
+</div>
+</div>
 </aside>
 <div class="col-lg-9">
 </div>
@@ -58,3 +72,10 @@
 {% endblock%}
 {%block col%}
 {% endblock%}
+
+{%block script%}
+{{super()}}
+<script>
+        new Vue().$mount('#app')
+    </script>
+{% endblock %}
