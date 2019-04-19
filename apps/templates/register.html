@@ -5,12 +5,27 @@
 {% endblock %}
 
 {% block title%}
-<h2>register</h2>
-<p>please register</p>
+<h3>注 册</h3>
+<p>如果有人能使这个世界变得更好，我希望是你</p>
 {% endblock %}
 {%block row%}
-<div class="col-lg-6">
-    {{wtf.quick_form(form)}}
+<div class="center-my ">
+    <form action="/register" method="post">
+        {{form.csrf_token}}
+        <div class="form-group">
+            <label class="control-label">用户名</label>
+            {{form.username(class='form-control')}}
+
+            <label class="control-label">密码</label>
+            {{form.password(class='form-control')}}
+             <label class="control-label">确认密码</label>
+            {{form.password2(class='form-control')}}
+             <label class="control-label">邮箱</label>
+            {{form.email(class='form-control')}}
+            <label class="control-label"></label>
+            {{form.submit(class='btn btn-lg btn-block btn-secondary submit_btn')}}
+        </div>
+    </form>
 </div>
 {% endblock %}
 {%block col%}

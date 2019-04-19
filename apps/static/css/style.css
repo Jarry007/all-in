@@ -14,11 +14,11 @@ ul {
 
 }
 .nav-right li{
-    line-height:20px;
+    line-height:30px;
     color:#a77ec1;
 
     font-size:12px;
-    margin-top:10px;
+    margin-top:20px;
 
 
 }
@@ -164,6 +164,7 @@ i:before {
   position: -webkit-sticky;
   position: sticky;
   top: 100px;
+  max-width:200px;
 
 }
 
@@ -361,7 +362,7 @@ i:before {
 }
 
 .banner_inner_text p {
-  font-size: 24px;
+  font-size: 20px;
   color: #6b7d8e;
   font-family: "Roboto", sans-serif;
   font-weight: normal;
@@ -1289,7 +1290,6 @@ i:before {
   background-image: linear-gradient(to right, #70bafe 0%, #998dff 51%, #70bafe 100%);
   background-size: 200% auto;
   z-index: 2;
-  width: 176px;
   padding: 0px;
   display: inline-block;
   -webkit-transition: all 400ms ease-out;
@@ -1302,8 +1302,8 @@ i:before {
   color: #fff;
   font-size: 15px;
   font-family: "Roboto", sans-serif;
-  line-height: 58px;
-  border: 6px solid rgba(204, 241, 255, 0.5);
+  line-height: 40px;
+  border: 3px solid rgba(204, 241, 255, 0.5);
   border-radius: 33px;
 }
 
@@ -1796,8 +1796,41 @@ i:before {
 ============================================================================================ */
 .blog_img {
   position: relative;
+  height:200px;
+  overflow:hidden;
+  border-bottom:1px solid #9993bc
 }
+.blog_img img{
 
+  width:100%;
+
+}
+.blog_allin_foot{
+		width: 100%;
+		height: 40px;
+		bottom: 0;
+		color:#888;
+		font-size:80%;}
+
+.blog_text_li{
+display: inline-block;
+		width: 27%;
+		text-align: center;
+		line-height: 40px;
+		margin-left:18px;
+}
+.blog_allin_foot :hover{
+background:#818aba;
+color:#fff;
+}
+.blog_text_li a{
+color: cadetblue;
+}
+.blog_text_li i {
+    margin-right: 10px;
+    margin-left:10px;
+
+}
 .blog_img .blog_date {
   position: absolute;
   left: 0px;
@@ -1835,7 +1868,7 @@ i:before {
 }
 
 .blog_text {
-  padding: 40px 30px 65px 30px;
+  padding: 40px 30px 5px 30px;
 }
 
 .blog_text h4 {
@@ -1855,7 +1888,7 @@ i:before {
 }
 
 .blog_text .blog_author {
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 .blog_text .blog_author a {
@@ -1918,10 +1951,7 @@ white-space: nowrap;
   box-shadow: 0px 14px 38px 0px rgba(0, 0, 0, 0.11);
   margin-bottom: 70px;
 }
-.blog_main_item:hover{
-   border:1px solid #37ccdac4;
-   box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.11);
-}
+
 
 .blog_main_item:last-child {
   margin-bottom: 0px;
@@ -1988,6 +2018,7 @@ white-space: nowrap;
 
 .r_widget:last-child {
   margin-bottom: 0px;
+  max-width:200px;
 }
 
 .r_w_title {
@@ -2132,16 +2163,15 @@ white-space: nowrap;
 }
 
 .tag_widget ul li {
-  display: inline-block;
-  margin-right: 8px;
-  margin-bottom: 12px;
+
+  margin-bottom: 10px;
 }
 
 .tag_widget ul li a {
   display: inline-block;
-  background: #f4f8fc;
+  background: #80DEEA;
   padding: 0px 25px;
-  line-height: 40px;
+  line-height: 30px;
   font-family: "Roboto", sans-serif;
   font-size: 15px;
   font-weight: 500;
@@ -2383,7 +2413,7 @@ white-space: nowrap;
 .footer_widget_area {
   background: url(../img/footer-bg.jpg) no-repeat scroll center center;
   background-size: cover;
-  padding: 70px 0px 45px 0px;
+  padding: 20px 0px 30px 0px;
 }
 
 .f_title {
@@ -2395,6 +2425,7 @@ white-space: nowrap;
   color: #fff;
   font-family: "Roboto", sans-serif;
   font-weight: 500;
+  margin-top:30px;
 }
 
 .f_about_widget {
@@ -2586,6 +2617,10 @@ white-space: nowrap;
         margin-bottom: 10px;
         display: inline-block;
     }
+}
+.center-my{
+margin:0 auto;
+width:50vw;
 }
 /* End Footer Area css
 ============================================================================================ */

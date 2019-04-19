@@ -488,7 +488,7 @@ def ttt():
 def mp_like():
     info = request.values.get('info')
     appid = 'wx41756aa8716ef1b9'
-    secret = '5706fe73860da62c46b8ce392d3eec6f'
+    secret = '5706fe63861da62c46b8ce392d3eec6f'
     user_info = json.loads(info)
     code = user_info['code']
     url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code' % (

@@ -26,9 +26,6 @@
         <a class="navbar-brand" href="/">ALL-IN</a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
         </button>
         <div class="navbar-collapse collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
@@ -49,9 +46,6 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li class="nav-item"><a class="nav-link" href="{{url_for('profile')}}">个人中心</a></li>
-                        <li class="nav-item"><a class="nav-link"
-                                                href="file:///C:/Users/94061/Desktop/sierra/single-blog.html">我的收藏</a>
-                        </li>
                         <li class="nav-item"><a class="nav-link"
                                                 href="file:///C:/Users/94061/Desktop/sierra/elements.html">朋友</a></li>
                     </ul>
@@ -95,15 +89,7 @@
             {%block col%}
             <div class="col-lg-3">
                 <div class="blog_right_sidebar">
-                    <aside class="r_widget search_widget">
-                        <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search" aria-label="Search">
-                            <span class="input-group-btn">
-                                        <button class="btn btn-secondary" type="button"><i
-                                                class="fa fa-search"></i></button>
-                                    </span>
-                        </div>
-                    </aside>
+
                     <aside class="r_widget categories_widget">
                         <div class="r_w_title">
                             <h3>最新发布</h3>
@@ -150,8 +136,19 @@
         <div class="container">
             <div class="row footer_widget_inner">
                 <div class="col-lg-4 col-sm-6">
-                    <aside class="f_widget f_about_widget">
-                        <p>如果您在使用中有什么问题，欢迎反馈。</p>
+                    <aside class="f_widget f_subs_widget">
+                        <div class="f_title">
+                            <h3>
+                                如果您在使用中遇到了问题
+                            </h3>
+                            <h3>
+                                或者您有好的建议，
+                            </h3>
+                        <h3>
+                                请在右方的反馈中提交给我们。
+                            </h3>
+                        </div>
+
                     </aside>
                 </div>
                 <div class="col-lg-4 col-sm-6">
@@ -164,12 +161,24 @@
                                 <input type="text" class="form-control" placeholder="标题：" name="issuet" required>
                                 <input type="text" class="form-control" placeholder="详情：" name="issue" required>
                                 <span class="input-group-btn">
-                                        <button class="btn btn-secondary submit_btn" type="submit">反馈</button>
+                                        <button class="btn btn-lg  btn-block btn-secondary submit_btn" type="submit">反馈</button>
                                     </span>
                             </div>
                         </form>
                     </aside>
                 </div>
+                <div class="col-lg-4 col-sm-6">
+                    <aside class="f_widget f_about_widget">
+                        <p><a href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action">豫ICP备18009771号</a></p>
+                        <p><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-weibo"></i></a></p>
+                    <p><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-github"></i></a></p>
+                    <p><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-twitter"></i></a>
+                    </p>
+                    <p><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-instagram"></i></a>
+                    </p>
+                    </aside>
+                </div>
+
             </div>
         </div>
     </div>

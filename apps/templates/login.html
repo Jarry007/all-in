@@ -5,13 +5,24 @@
 {% endblock %}
 
 {% block title%}
-<h2>Login</h2>
-<p>please login</p>
+<h3>登 陆</h3>
+<p>今天的你，改变世界了吗</p>
 {% endblock %}
 
 {%block row%}
-<div class="col-lg-6">
-    {{wtf.quick_form(form)}}
+<div class="center-my ">
+    <form action="/login" method="post">
+        {{form.csrf_token}}
+        <div class="form-group">
+            <label class="control-label">用户名</label>
+            {{form.username(class='form-control')}}
+
+            <label class="control-label">密码</label>
+            {{form.password(class='form-control')}}
+            <label class="control-label"></label>
+            {{form.submit(class='btn btn-lg btn-block btn-secondary submit_btn')}}
+        </div>
+    </form>
 </div>
 {% endblock %}
 {%block col%}
