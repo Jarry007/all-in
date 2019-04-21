@@ -20,6 +20,7 @@ class Role(UserMixin,db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     default_avatar = db.Column(db.String(240))
     avatar = db.Column(db.String(240))
+    code = db.Column(db.String(10))
     addtime = db.Column(db.DATETIME, index=True, default=datetime.now)
     article = db.relationship('Article', backref='role')
     profile = db.relationship('UserProfile', backref='role')

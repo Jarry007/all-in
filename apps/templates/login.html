@@ -10,6 +10,8 @@
 {% endblock %}
 
 {%block row%}
+<div class="col-3"></div>
+<div class="col-6 ">
 <div class="center-my ">
     <form action="/login" method="post">
         {{form.csrf_token}}
@@ -24,6 +26,8 @@
         </div>
     </form>
 </div>
+</div>
+<div class="col-3"></div>
 {% endblock %}
 {%block col%}
 {% endblock%}

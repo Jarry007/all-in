@@ -49,6 +49,8 @@ body {
   font-family: "Roboto", sans-serif;
   font-weight: 500;
 }
+.col-6.center{margin:auto;}
+
 
 body, p, h1, h2, h3, h4, h5, h6 {
   margin: 0px;
@@ -2618,10 +2620,7 @@ white-space: nowrap;
         display: inline-block;
     }
 }
-.center-my{
-margin:0 auto;
-width:50vw;
-}
+
 /* End Footer Area css
 ============================================================================================ */
 /*---------------------------------------------------- */

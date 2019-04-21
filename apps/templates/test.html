@@ -26,6 +26,9 @@
         <a class="navbar-brand" href="/">ALL-IN</a>
         <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target=".navbar-collapse"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
         <div class="navbar-collapse collapse" id="navbarSupportedContent">
             <ul class="navbar-nav">
@@ -48,6 +51,8 @@
                         <li class="nav-item"><a class="nav-link" href="{{url_for('profile')}}">个人中心</a></li>
                         <li class="nav-item"><a class="nav-link"
                                                 href="file:///C:/Users/94061/Desktop/sierra/elements.html">朋友</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                                href="{{url_for('send_code')}}">修改密码</a></li>
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('logout')}}">注销</a></li>
@@ -182,23 +187,7 @@
             </div>
         </div>
     </div>
-    <div class="footer_copyright">
-        <div class="container">
-            <div class="float-sm-left">
-                <h5><a href="http://www.miitbeian.gov.cn/state/outPortal/loginPortal.action">豫ICP备18009771号</a></h5>
-            </div>
-            <div class="float-sm-right">
-                <ul>
-                    <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-weibo"></i></a></li>
-                    <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-github"></i></a></li>
-                    <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-twitter"></i></a>
-                    </li>
-                    <li><a href="file:///C:/Users/94061/Desktop/sierra/blog.html#"><i class="fa fa-instagram"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+
 </footer>
 {% block script%}
 <script src="{{url_for('static',filename='js/jquery-3.2.1.min.js',_external=True)}}"></script>

@@ -1,13 +1,12 @@
 import requests
 from flask_uploads import configure_uploads
-from apps import app,db,pagedown,loginmanager,ck,creat_folder,STATIC_DIR
+from apps import app,db,pagedown,loginmanager,creat_folder,STATIC_DIR
 from flask import render_template, url_for, flash, request, redirect, session, jsonify, json
 from flask_script import Manager
 from flask_mail import Mail,Message
 import time,random,os
 from threading import Thread
 
-from apps.WXBizDataCrypt import WXBizDataCrypt
 from .model import Role, UserProfile, Article, IpList, Comment, Reply,Follow,Likes
 import hashlib,re
 from .forms import NameForm, Login, Register, Profile, photosSet,PostForm,CommentForm,ReplyForm
@@ -498,10 +497,11 @@ def mp_like():
     session_key = session_['session_key']
     encryptedData = user_info['encryptedData']
     iv = user_info['iv']
-    pc = WXBizDataCrypt(appid, session_key)
+   # pc = WXBizDataCrypt(appid, session_key)
     print(session_key)
 
-    return pc.decrypt(encryptedData, iv)
+   # return pc.decrypt(encryptedData, iv)
+    return
 
 @app.route('/guaguaka',methods=['POST','GET'])
 def guaguaka():
@@ -522,5 +522,32 @@ def loading():
 def write_mail():
     return render_template('oneforone.html')
 
+@app.route('/send_code',methods=['POST','GET'])
+@login_required
+def send_code():
+    user = Role.query.filter_by(id=current_user.id).first()
+    code = verificationCode
+    user.code = str(code)
+    db.session.commit()
+    send = Message('ALL-in 验证信息', sender='1623332700@qq.com', recipients=[current_user.email])
+    send.body = "{}-{}".format('您正在修改ALL-in密码，验证码是', code)
+    thread = Thread(target=send_async_email, args=[app, send])
+    thread.start()
+    return render_template('update_pwd.html')
+@app.route('/update_pwd',methods=['POST','GET'])
+@login_required
+def update_pwd():
+    code = request.form.get('code')
+    new_pwd = request.form.get('new_pwd')
+    user = Role.query.filter_by(id=current_user.id).first()
+    if code == user.code:
+        user.code = ''
+        user.pwd = md5(new_pwd)
 
+        db.session.commit()
+        return redirect(url_for('logout'))
+    else:
+        flash('验证码错误')
+
+    return render_template('update_pwd.html')
 

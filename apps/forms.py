@@ -5,7 +5,6 @@ from flask_wtf.file import FileField,FileAllowed,FileRequired
 import hashlib
 from flask_uploads import UploadSet,IMAGES,UploadNotAllowed
 from flask_pagedown.fields import PageDownField
-from flask_ckeditor import CKEditorField
 photosSet = UploadSet(name='photos', extensions=IMAGES)
 
 

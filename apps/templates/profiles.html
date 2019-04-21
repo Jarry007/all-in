@@ -27,7 +27,7 @@
 {% endblock %}
 
 {% block post %}
-<div class="col-md-2">
+<div class="col-md-3">
     <a href="{{url_for('followers',username=user.username)}}">
         关注者：<span class="badge">{{user.followers.count()}}</span>
     </a>
@@ -41,7 +41,7 @@
     <h3>生日：{{profile.birthday}}</h3>
     <h3>简介：{{profile.intro}}</h3>
 </div>
-<aside class="col-md-9">
+<aside class="col-md-8">
     <h3>{{user.username}}发布的文章</h3>
     <ul>
 
@@ -52,19 +52,31 @@
 
     </ul>
     <div id="app">
-<div class="block">
-  <el-timeline>
-       {%for art in user.article%}
-    <el-timeline-item timestamp="{{art.addtime}}" placement="top">
-      <el-card>
-        <h6><a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a></h6>
-          <p><i class="fa fa-eye" aria-hidden="true">{{art.view}}</i></p>
-      </el-card>
-    </el-timeline-item>
- {% endfor %}
-  </el-timeline>
-</div>
-</div>
+        <div class="block">
+            <el-timeline>
+                {%for art in user.article%}
+                <el-timeline-item timestamp="{{art.addtime}}" placement="top">
+                    <el-card>
+                        <h6><a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a></h6>
+                        <div class="blog_allin_foot">
+                            <div class="blog_text_li">
+                                <a href="{{url_for('like',id=art.id)}}">点赞</a>
+                                <i class="fa fa-thumbs-o-up" aria-hidden="true"> ：</i>{{art.likes.count()}}
+                            </div>
+                            <div class="blog_text_li">评论
+                                <i class="fa fa-commenting-o" aria-hidden="true"> ：</i>{{art.comments.count()}}
+                            </div>
+                            <div class="blog_text_li">
+                                <a href="{{url_for('posts',id=art.id)}}">浏览</a>
+                                <i class="fa fa-street-view" aria-hidden="true"> ：</i>{{art.view}}
+                            </div>
+                        </div>
+                    </el-card>
+                </el-timeline-item>
+                {% endfor %}
+            </el-timeline>
+        </div>
+    </div>
 </aside>
 <div class="col-lg-9">
 </div>
