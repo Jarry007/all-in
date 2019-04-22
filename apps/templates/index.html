@@ -28,7 +28,8 @@
                 <a href="{{url_for('like',id=post.id)}}">点赞</a>
   <i class="fa fa-thumbs-o-up" aria-hidden="true"> ：</i>{{post.likes.count()}}
             </div>
-            <div class="blog_text_li">评论
+            <div class="blog_text_li">
+                <a href="{{url_for('like',id=post.id)}}">评论</a>
 <i class="fa fa-commenting-o" aria-hidden="true"> ：</i>{{post.comments.count()}}
             </div>
             <div class="blog_text_li">
@@ -44,7 +45,3 @@
 </div>
 {% endblock %}
 
-{%block script%}
-{{super()}}
-new Vue().$mount('#shadow')
-{%endblock%}

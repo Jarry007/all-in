@@ -80,7 +80,7 @@ def send_async_email(app,send):
 def index():
 
     page = request.args.get('page', 1, type=int)
-    article = Article.query.order_by(Article.id.desc()).paginate(page, per_page=10, error_out=False)
+    article = Article.query.order_by(Article.id.desc()).paginate(page, per_page=6, error_out=False)
     news = Article.query.order_by(Article.id.desc()).limit(5).all()
     hot = Article.query.order_by(Article.view.desc()).limit(5).all()
     posts = article.items
@@ -289,9 +289,12 @@ def show():
 @app.route('/profile/<username>',methods=['POST','GET'])
 def profileid (username):
     user = Role.query.filter_by(username=username).first()
-
+    page = request.args.get('page', 1, type=int)
+    art = Article.query.filter_by(uuid=user.uuid).paginate(page,per_page=6,error_out=False)
+    article = art.items
     profiles = UserProfile.query.filter_by(user_id=user.uuid).first()
-    return render_template('profiles.html', user=user, profile=profiles)
+
+    return render_template('profiles.html', user=user, profile=profiles, article=article, art=art)
 
 @app.route('/ckdemo',methods=['POST','GET'])
 def ckdemo():

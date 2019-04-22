@@ -67,7 +67,7 @@
                  {% else %}
                 <li><a class="more_btn" href="{{url_for('like', id=posts.id)}}"><i class="fa fa-heart-o"></i></a>{{posts.likes.count()}}</li>
                 {% endif %}
-                <li><a class="more_btn"><i class="fa fa-bookmark-o" aria-hidden="true"></i>收藏</a>{{posts.collections}}
+                <li><a class="more_btn" data-toggle="collapse" data-target="#collapseComment" href="#"><i class="fa fa-bookmark-o" aria-hidden="true"></i>评论</a>{{posts.comments.count()}}
                 </li>
                 <li><i class="fa fa-eye" aria-hidden="true"> 浏览量:<span>{{posts.view}}</span></i></li>
             </ul>

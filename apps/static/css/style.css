@@ -216,7 +216,7 @@ i:before {
   font-family: "Roboto", sans-serif;
   font-weight: bold;
   text-transform: uppercase;
-  color: #fff;
+  color: #778adb;
   letter-spacing: .65px;
   padding: 0px;
   line-height: 118px;
@@ -299,7 +299,7 @@ i:before {
   top: -70px;
   left: 0;
   right: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: #fff;
   -webkit-transform: translateY(70px);
   -ms-transform: translateY(70px);
   transform: translateY(70px);
@@ -340,7 +340,7 @@ i:before {
 }
 
 .banner_inner_text {
-  padding-top: 100px;
+  padding-top: 150px;
   position: relative;
   padding-bottom: 35px;
   text-align:center;
@@ -1306,7 +1306,7 @@ i:before {
   font-family: "Roboto", sans-serif;
   line-height: 40px;
   border: 3px solid rgba(204, 241, 255, 0.5);
-  border-radius: 33px;
+  border-radius: 10px;
 }
 
 .submit_btn:hover {
@@ -1820,13 +1820,19 @@ display: inline-block;
 		text-align: center;
 		line-height: 40px;
 		margin-left:18px;
+		-webkit-transition: all 400ms linear 0s;
+  -o-transition: all 400ms linear 0s;
+  transition: all 400ms linear 0s;
 }
 .blog_allin_foot :hover{
-background:#818aba;
-color:#fff;
+border-radius: 20px;
+  background-image: -moz-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
+  background-image: -webkit-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
+  background-image: -ms-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
+  color: #fff;
 }
 .blog_text_li a{
-color: cadetblue;
+color: #fff;
 }
 .blog_text_li i {
     margin-right: 10px;
@@ -2171,13 +2177,13 @@ white-space: nowrap;
 
 .tag_widget ul li a {
   display: inline-block;
-  background: #80DEEA;
+  background: #7F96E9;
   padding: 0px 25px;
   line-height: 30px;
   font-family: "Roboto", sans-serif;
   font-size: 15px;
   font-weight: 500;
-  color: #7c8d93;
+  color: #fff;
   -webkit-transition: all 400ms linear 0s;
   -o-transition: all 400ms linear 0s;
   transition: all 400ms linear 0s;
@@ -2185,9 +2191,7 @@ white-space: nowrap;
 
 .tag_widget ul li:hover a {
   border-radius: 20px;
-  background-image: -moz-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
-  background-image: -webkit-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
-  background-image: -ms-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
+  background:#a371cb;
   color: #fff;
 }
 

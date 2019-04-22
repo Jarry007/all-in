@@ -1,4 +1,5 @@
 {% extends "test.html" %}
+{% import "_macros.html" as mr%}
 
 {% block tittle %}
 <title>{{user.username}}的个人主页</title>
@@ -43,18 +44,11 @@
 </div>
 <aside class="col-md-8">
     <h3>{{user.username}}发布的文章</h3>
-    <ul>
 
-        <li class="">
-
-            <span></span>
-        </li>
-
-    </ul>
     <div id="app">
         <div class="block">
             <el-timeline>
-                {%for art in user.article%}
+                {%for art in article%}
                 <el-timeline-item timestamp="{{art.addtime}}" placement="top">
                     <el-card>
                         <h6><a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a></h6>
@@ -75,8 +69,10 @@
                 </el-timeline-item>
                 {% endfor %}
             </el-timeline>
+            {{ mr.pagination_widget(art,'profileid',user.username)}}
         </div>
     </div>
+
 </aside>
 <div class="col-lg-9">
 </div>
