@@ -61,4 +61,7 @@ class ReplyForm(FlaskForm):
 
 
 
-
+class Mark(FlaskForm):
+    title = StringField('标题', validators=[Required()])
+    body = PageDownField('文章',validators=[Required()])
+    submit = SubmitField('评论')

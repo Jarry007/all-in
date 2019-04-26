@@ -1,5 +1,7 @@
 import requests
 from flask_uploads import configure_uploads
+from markdown import markdown
+
 from apps import app,db,pagedown,loginmanager,creat_folder,STATIC_DIR
 from flask import render_template, url_for, flash, request, redirect, session, jsonify, json
 from flask_script import Manager
@@ -9,7 +11,7 @@ from threading import Thread
 
 from .model import Role, UserProfile, Article, IpList, Comment, Reply,Follow,Likes
 import hashlib,re
-from .forms import NameForm, Login, Register, Profile, photosSet,PostForm,CommentForm,ReplyForm
+from .forms import NameForm, Login, Register, Profile, photosSet,PostForm,CommentForm,ReplyForm,Mark
 from flask_login import login_user,login_required,logout_user,current_user
 from functools import wraps
 import uuid
@@ -554,3 +556,23 @@ def update_pwd():
 
     return render_template('update_pwd.html')
 
+@app.route('/markdown', methods=['POST','GET'])
+@login_required
+def markdown_edit():
+    form = Mark()
+    if form.validate_on_submit():
+        post = Article()
+        body = markdown(form.body.data, output_format='html')
+        post.uuid = current_user.uuid
+        post.tittle = form.title.data
+        post.body = body
+
+        obj = post.body
+        obj = re.compile('</?\w+[^>]*>').sub('', obj)
+        post.show = obj
+        post.body_html = form.body.data
+        db.session.add(post)
+        db.session.commit()
+
+        return redirect(url_for('index'))
+    return render_template('markdown.html', form=form)
