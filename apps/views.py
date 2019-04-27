@@ -263,11 +263,6 @@ def ckeditor():
         post.uuid = current_user.uuid
         post.tittle = form.title.data
         post.body = form.body.data
-
-        obj = post.body
-        obj = re.compile('</?\w+[^>]*>').sub('', obj)
-        post.show = obj
-        post.body_html = form.body.data
         db.session.add(post)
         db.session.commit()
         return redirect(url_for('index'))
@@ -560,7 +555,7 @@ def send_code():
     code = verificationCode
     user.code = str(code)
     db.session.commit()
-    send = Message('ALL-in 验证信息', sender='1623332700@qq.com', recipients=[current_user.email])
+    send = Message('ALL-in 验证信息', sender=os.environ.get('MAIL_USER'), recipients=[current_user.email])
     send.body = "{}-{}".format('您正在修改ALL-in密码，验证码是', code)
     thread = Thread(target=send_async_email, args=[app, send])
     thread.start()
@@ -594,10 +589,6 @@ def markdown_edit():
         post.uuid = current_user.uuid
         post.tittle = form.title.data
         post.body = form.body.data
-        obj = post.body
-        obj = re.compile('</?\w+[^>]*>').sub('', obj)
-        post.show = obj
-        post.body_html = form.body.data
         db.session.add(post)
         db.session.commit()
 

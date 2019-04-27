@@ -153,12 +153,12 @@ class Article(db.Model):
                          'a': ['href', 'rel'],
                          'img': ['src', 'alt']
                          }
-        text =  markdown(value, output='html')
+        text =  markdown(value, output='html',extensions=['markdown.extensions.toc','markdown.extensions.fenced_code'])
 
         target.body_html = bleach.linkify(bleach.clean(text,
             tags=allowed_tags, strip=True, attributes=allowed_attrs
         ))
-        print(target.body_html)
+
 
 db.event.listen(Article.body,'set',Article.on_change_body)
 

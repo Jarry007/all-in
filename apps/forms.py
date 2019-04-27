@@ -62,6 +62,10 @@ class ReplyForm(FlaskForm):
 
 
 class Mark(FlaskForm):
+    pic = FileField(
+        label='上传封面图',
+        validators=[FileAllowed(photosSet)]
+    )
     title = StringField('标题', validators=[Required()])
-    body = PageDownField('文章',validators=[Required()])
-    submit = SubmitField('评论')
+    body = TextAreaField('文章',id='markdown')
+    submit = SubmitField('发布')

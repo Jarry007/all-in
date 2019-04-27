@@ -36,7 +36,16 @@
                 <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}">主页</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('index')}}">广场</a></li>
                 <li class="nav-item"><a class="nav-link" href="{{url_for('friends')}}">朋友圈</a></li>
-                <li class="nav-item"><a class="nav-link" href="{{url_for('ckeditor')}}"><i class="el-icon-edit"></i>写博客</a></li>
+                <li class="nav-item  dropdown submenu ">
+                    <a class="dropdown-toggle " id="Dropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false"><i class="el-icon-edit"></i>写博客</a>
+                    <ul class="dropdown-menu" aria-labelledby="Dropdown">
+                        <li class="nav-item"> <a class="nav-link" href="{{url_for('ckeditor')}}">Html编辑器</a></li>
+                        <li class="nav-item"><a class="nav-link"
+                                                href="{{url_for('markdown_edit')}}">Markdown编辑器</a></li>
+                    </ul>
+
+                </li>
                 {% if current_user.is_authenticated %}
                 <li class="nav-item dropdown submenu active">
                     <a class="dropdown-toggle " id="navbarDropdown" role="button" data-toggle="dropdown"
@@ -50,8 +59,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <li class="nav-item"><a class="nav-link" href="{{url_for('profile')}}">个人中心</a></li>
-                        <li class="nav-item"><a class="nav-link"
-                                                href="file:///C:/Users/94061/Desktop/sierra/elements.html">朋友</a></li>
+
                         <li class="nav-item"><a class="nav-link"
                                                 href="{{url_for('send_code')}}">修改密码</a></li>
                     </ul>
