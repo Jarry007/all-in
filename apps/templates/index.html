@@ -21,7 +21,12 @@
                 <a>{{post.addtime}}</a>
             </div>
             <div class="blog_author">
-                <p>{{post.show[:200]}}</p>
+                <p>{% if post.body_html %}
+                {{ post.body_html |safe|striptags|truncate }}
+            {% else %}
+                {{ post.body }}
+            {% endif %}
+</p>
             </div>
             <div class="blog_allin_foot">
             <div class="blog_text_li">

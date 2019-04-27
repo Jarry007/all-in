@@ -336,7 +336,8 @@ def unfollow(username):
     flash('取关成功')
     return redirect(url_for('profileid', username=username))
 
-@app.route('/followers/<username>', methods=['POST','GET'])
+
+@app.route('/followers/<username>', methods=['POST', 'GET'])
 def followers(username):
     user = Role.query.filter_by(username=username).first()
     if user is None:
@@ -349,6 +350,7 @@ def followers(username):
     follows = pagination.items
     return render_template('followed.html', user=user, pagination=pagination,
                            follows=follows)
+
 
 @app.route('/followed_by/<username>')
 def followed_by(username):
@@ -383,7 +385,8 @@ def delete_comment(id, comment):
     db.session.commit()
     return redirect(url_for('posts', id=id))
 
-@app.route('/posts/<int:id>/reply/<int:comment>',methods=['POST', 'GET'])
+
+@app.route('/posts/<int:id>/reply/<int:comment>', methods=['POST', 'GET'])
 def reply_comment(id, comment):
     form = ReplyForm()
     if form.validate_on_submit():
@@ -395,7 +398,8 @@ def reply_comment(id, comment):
         db.session.commit()
     return redirect(url_for('posts', id=id))
 
-@app.route('/friends', methods=['POST','GET'])
+
+@app.route('/friends', methods=['POST', 'GET'])
 @login_required
 def friends():
     page = request.args.get('page', 1, type=int)
@@ -407,23 +411,25 @@ def friends():
 
     return render_template('friends.html', posts=posts, article=article)
 
-@app.route('/like/<int:id>',methods=['POST','GET'])
+
+@app.route('/like/<int:id>', methods=['POST', 'GET'])
 @login_required
 def like(id):
     if current_user.is_liked(id):
         flash('您已经赞了这篇文章')
-        return redirect(url_for('posts',id=id))
+        return redirect(url_for('posts', id=id))
     current_user.like(id)
     return redirect(url_for('posts', id=id))
 
-@app.route('/unlike/<int:id>',methods=['POST','GET'])
+
+@app.route('/unlike/<int:id>', methods=['POST', 'GET'])
 @login_required
 def unlike(id):
     current_user.unlike(id)
     return redirect(url_for('posts', id=id))
 
 
-@app.route('/vue' ,methods=['GET','POST'])
+@app.route('/vue', methods=['GET', 'POST'])
 def vue_say():
     listt = Role.query.all()
     ip = IpList.query.order_by(IpList.time.desc()).all()
@@ -434,32 +440,36 @@ def vue_say():
         print(t)
     return jsonify(t)
 
-@app.route('/vue/list', methods=['GET','POST'])
+
+@app.route('/vue/list', methods=['GET', 'POST'])
 def vue_list():
-   # listt = Role.query.all()
+    # listt = Role.query.all()
     ip = IpList.query.order_by(IpList.time.desc()).all()
     t = []
     for i in ip:
         t.append(i.to_json())
     return jsonify(t)
 
-@app.route('/mp/posts',methods=['POST','GET'])
+
+@app.route('/mp/posts', methods=['POST', 'GET'])
 def get_posts():
     posts_ = Article.query.all()
     new_ = Article.query.order_by(Article.view.desc()).limit(4).all()
     return jsonify({
-        'posts':[post.to_dict() for post in posts_],
-        'news':[new.to_dict() for new in new_]
+        'posts': [post.to_dict() for post in posts_],
+        'news': [new.to_dict() for new in new_]
     })
 
-@app.route('/get_json_comment/<article_id>',methods=['POST','GET'])
+
+@app.route('/get_json_comment/<article_id>', methods=['POST', 'GET'])
 def get_comment_json(article_id):
     comments = Comment.query.filter_by(article_id=article_id)
     return jsonify({
-        'comment':[comment.to_json() for comment in comments]
+        'comment': [comment.to_json() for comment in comments]
     })
 
-@app.route('/get_json_reply/<comment>',methods=['POST','GET'])
+
+@app.route('/get_json_reply/<comment>', methods=['POST', 'GET'])
 def get_json_reply(comment):
     reply = Reply.query.filter_by(comment_id=comment)
     print('reply get success!')
@@ -468,16 +478,18 @@ def get_json_reply(comment):
         r.append(i.to_json())
     return jsonify(r)
 
-@app.route('/request_data',methods=['POST','GET'])
+
+@app.route('/request_data', methods=['POST', 'GET'])
 def request_data():
     data = request.values.get('data')
     print(data)
-    return redirect(url_for('get_json_reply',comment=data))
+    return redirect(url_for('get_json_reply', comment=data))
 
-@app.route('/ttt',methods=['GET'])
+
+@app.route('/ttt', methods=['GET'])
 def ttt():
     posts = Article.query.all()
-    t=[]
+    t = []
     r = []
     for i in posts:
         for j in i.comments.all():
@@ -486,9 +498,11 @@ def ttt():
     print(t)
 
     return jsonify({
-        'comment':t
+        'comment': t
     })
-@app.route('/mp/like', methods=['GET','POST'])
+
+
+@app.route('/mp/like', methods=['GET', 'POST'])
 def mp_like():
     info = request.values.get('info')
     appid = 'wx41756aa8716ef1b9'
@@ -502,32 +516,44 @@ def mp_like():
     session_key = session_['session_key']
     encryptedData = user_info['encryptedData']
     iv = user_info['iv']
-   # pc = WXBizDataCrypt(appid, session_key)
+    # pc = WXBizDataCrypt(appid, session_key)
     print(session_key)
 
-   # return pc.decrypt(encryptedData, iv)
+    # return pc.decrypt(encryptedData, iv)
     return
 
-@app.route('/guaguaka',methods=['POST','GET'])
+
+@app.route('/guaguaka', methods=['POST', 'GET'])
 def guaguaka():
     return render_template('guaguaka.html')
-@app.route('/danmu', methods=['POST','GET'])
+
+
+@app.route('/danmu', methods=['POST', 'GET'])
 def danmu():
     return render_template('danmu.html')
-@app.route('/verification',methods=['POST','GET'])
+
+
+@app.route('/verification', methods=['POST', 'GET'])
 def verification():
     return render_template('verification.html')
-@app.route('/shake',methods=['POST','GET'])
+
+
+@app.route('/shake', methods=['POST', 'GET'])
 def shake():
     return render_template('shake.html')
-@app.route('/loading',methods=['POST','GET'])
+
+
+@app.route('/loading', methods=['POST', 'GET'])
 def loading():
     return render_template('pin.html')
-@app.route('/write_mail',methods=['POST','GET'])
+
+
+@app.route('/write_mail', methods=['POST', 'GET'])
 def write_mail():
     return render_template('oneforone.html')
 
-@app.route('/send_code',methods=['POST','GET'])
+
+@app.route('/send_code', methods=['POST', 'GET'])
 @login_required
 def send_code():
     user = Role.query.filter_by(id=current_user.id).first()
@@ -539,7 +565,9 @@ def send_code():
     thread = Thread(target=send_async_email, args=[app, send])
     thread.start()
     return render_template('update_pwd.html')
-@app.route('/update_pwd',methods=['POST','GET'])
+
+
+@app.route('/update_pwd', methods=['POST', 'GET'])
 @login_required
 def update_pwd():
     code = request.form.get('code')
@@ -556,17 +584,16 @@ def update_pwd():
 
     return render_template('update_pwd.html')
 
-@app.route('/markdown', methods=['POST','GET'])
+
+@app.route('/markdown', methods=['POST', 'GET'])
 @login_required
 def markdown_edit():
     form = Mark()
     if form.validate_on_submit():
         post = Article()
-        body = markdown(form.body.data, output_format='html')
         post.uuid = current_user.uuid
         post.tittle = form.title.data
-        post.body = body
-
+        post.body = form.body.data
         obj = post.body
         obj = re.compile('</?\w+[^>]*>').sub('', obj)
         post.show = obj
