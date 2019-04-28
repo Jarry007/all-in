@@ -35,7 +35,7 @@
         <h3>{{posts.tittle}}</h3>
     </div>
     <div> {{posts.addtime}}</div>
-    <div class="blog_text" >
+    <div class="blog_text" id="blog_text">
         {% if posts.body_html %}
         {{ posts.body_html |safe }}
         {% else %}

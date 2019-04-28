@@ -1824,6 +1824,7 @@ display: inline-block;
   -o-transition: all 400ms linear 0s;
   transition: all 400ms linear 0s;
 }
+
 .blog_allin_foot :hover{
 border-radius: 20px;
   background-image: -moz-linear-gradient(10deg, #6ebdfe 0%, #9b8aff 100%);
@@ -1878,6 +1879,10 @@ color: #fff;
 .blog_text {
   padding: 40px 30px 5px 30px;
 }
+.blog_text img{
+  max-width:100%;
+  margin:10px 0px;
+}
 
 .blog_text h4 {
   font-size: 24px;
@@ -1898,6 +1903,30 @@ color: #fff;
 .blog_text .blog_author {
   padding-bottom: 10px;
 }
+.blog_text table{
+margin:30px 0 ;
+    border: 1px solid #ddd;
+
+}
+.blog_text thead{
+    background: #c4cfdc;
+}
+.blog_text th{
+    padding: 10px 20px;
+    font-size: 110%;
+    }
+.blog_text tbody tr{
+    border-bottom: 1px solid #a2a5d9;
+}
+.blog_text td{
+    border-right: 1px solid #a2a5d9;
+    text-align: center;}
+
+.blog_text tr:nth-last-child(1){
+border-bottom:1px solid #ddd}
+
+.blog_text td:nth-last-child(1){
+border-right:1px solid #ddd}
 
 .blog_text .blog_author a {
   font-size: 12px;
@@ -2624,6 +2653,7 @@ white-space: nowrap;
         display: inline-block;
     }
 }
+
 
 /* End Footer Area css
 ============================================================================================ */

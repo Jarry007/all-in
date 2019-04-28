@@ -6,11 +6,15 @@
   <component name="ChangeListManager">
     <list default="true" id="1456a29e-6d47-491d-b102-5f1c7bdd926a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/static/ckeditor/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/apps/static/ckeditor/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/static/uploads/49eb81e1e4ed92eadbc268b99fcd3f15/20190428012835_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/static/uploads/49eb81e1e4ed92eadbc268b99fcd3f15/20190428022454_18.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/templates/ck.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/templates/ck.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/templates/markdown.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/templates/markdown.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/templates/posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/templates/posts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/templates/test.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/templates/test.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/views.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -24,8 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/templates/posts.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="36" column="3" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
+            <state relative-caret-position="-833">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
                 <element signature="n#div#2;n#!!top" />
               </folding>
@@ -34,10 +38,53 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/templates/ck.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="157">
+              <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/static/css/style.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="156">
+              <caret line="1883" column="14" selection-start-line="1883" selection-start-column="14" selection-end-line="1883" selection-end-column="14" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/templates/markdown.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="223">
+              <caret line="51" column="55" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="55" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/apps/model.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2223">
+              <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/migrations/versions/e5b387ee48d1_avatar_1.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-110" />
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="551" selection-start-line="551" selection-end-line="561" selection-end-column="45" />
+            <state relative-caret-position="524">
+              <caret line="639" lean-forward="true" selection-start-line="639" selection-end-line="639" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -46,77 +93,21 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/templates/markdown.html">
+        <entry file="file://$PROJECT_DIR$/apps/static/ckeditor/styles.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="61">
-              <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
+            <state relative-caret-position="-1716">
+              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/templates/ck.html">
+        <entry file="file://$PROJECT_DIR$/apps/static/ckeditor/config.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="246">
-              <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/templates/test.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="38" column="54" selection-start-line="38" selection-start-column="54" selection-end-line="38" selection-end-column="54" />
+            <state relative-caret-position="117">
+              <caret line="30" selection-start-line="30" selection-end-line="30" />
               <folding>
-                <element signature="n#section#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#section#1;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#footer#0;n#body#0;n#html#0;n#!!top" />
-                <element signature="n#aside#0;n#div#1;n#div#0;n#div#0;n#div#0;n#footer#0;n#body#0;n#html#0;n#!!top" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/apps/model.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
-              <caret line="112" column="29" lean-forward="true" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
-              <folding>
-                <element signature="e#3#32#0" expanded="true" />
-                <element signature="e#4760#5414#0" />
-                <element signature="e#5462#5579#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/markdown/core.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-522">
-              <caret line="374" column="4" selection-start-line="374" selection-start-column="4" selection-end-line="374" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/templates/profile.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/apps/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="281">
-              <caret line="30" column="46" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="46" />
-              <folding>
-                <element signature="e#0#23#0" expanded="true" />
+                <element signature="e#0#1702#0" />
               </folding>
             </state>
           </provider>
@@ -125,8 +116,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="66" column="43" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
+            <state relative-caret-position="299">
+              <caret line="71" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
               </folding>
@@ -146,8 +137,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>blog_comment</find>
-      <find>min</find>
       <find>card</find>
       <find>car</find>
       <find>commen</find>
@@ -176,6 +165,8 @@
       <find>.tag_widget ul li a</find>
       <find>.submit_btn</find>
       <find>comment</find>
+      <find>blog_text</find>
+      <find>crossDomainUpload</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -184,15 +175,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="D:/sierra/index.html" />
-        <option value="$PROJECT_DIR$/apps/static/scss/_button.scss" />
         <option value="$PROJECT_DIR$/apps/static/css/responsive.css" />
         <option value="D:/py/sql.py" />
         <option value="$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/flask_ckeditor/__init__.py" />
         <option value="$PROJECT_DIR$/apps/templates/ckdemo.py" />
         <option value="$PROJECT_DIR$/apps/templates/show.html" />
         <option value="$PROJECT_DIR$/apps/templates/ckdemo.html" />
-        <option value="$PROJECT_DIR$/apps/static/ckeditor/config.js" />
         <option value="$PROJECT_DIR$/apps/qqwe.py" />
         <option value="$PROJECT_DIR$/apps/templates/pig.html" />
         <option value="$USER_HOME$/React-News-Board/server/__init__.py" />
@@ -214,7 +202,6 @@
         <option value="$PROJECT_DIR$/apps/templates/hl.html" />
         <option value="$PROJECT_DIR$/apps/templates/register.html" />
         <option value="$PROJECT_DIR$/manage.py" />
-        <option value="$PROJECT_DIR$/apps/templates/ck.html" />
         <option value="$PROJECT_DIR$/run.py" />
         <option value="$PROJECT_DIR$/apps/h.py" />
         <option value="$PROJECT_DIR$/apps/mal.py" />
@@ -226,21 +213,25 @@
         <option value="$PROJECT_DIR$/apps/templates/followed.html" />
         <option value="$PROJECT_DIR$/apps/templates/update_pwd.html" />
         <option value="$PROJECT_DIR$/apps/templates/profiles.html" />
-        <option value="$PROJECT_DIR$/apps/static/css/style.css" />
         <option value="$PROJECT_DIR$/apps/templates/_macros.html" />
         <option value="$PROJECT_DIR$/apps/templates/index.html" />
         <option value="$PROJECT_DIR$/apps/forms.py" />
-        <option value="$PROJECT_DIR$/apps/templates/markdown.html" />
         <option value="$PROJECT_DIR$/apps/templates/test.html" />
+        <option value="$PROJECT_DIR$/apps/templates/markdown.html" />
+        <option value="$PROJECT_DIR$/apps/static/markd/plugins/image-dialog/image-dialog.js" />
         <option value="$PROJECT_DIR$/apps/templates/posts.html" />
-        <option value="$PROJECT_DIR$/apps/views.py" />
+        <option value="$PROJECT_DIR$/apps/static/js/conver.js" />
+        <option value="$PROJECT_DIR$/apps/static/css/style.css" />
+        <option value="$PROJECT_DIR$/apps/templates/ck.html" />
+        <option value="$PROJECT_DIR$/apps/static/ckeditor/config.js" />
         <option value="$PROJECT_DIR$/apps/model.py" />
+        <option value="$PROJECT_DIR$/apps/views.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-50" />
-    <option name="y" value="106" />
+    <option name="y" value="105" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
   </component>
@@ -266,13 +257,6 @@
               <item name="all-in" type="462c0819:PsiDirectoryNode" />
               <item name="apps" type="462c0819:PsiDirectoryNode" />
               <item name="static" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="all-in" type="b2602c69:ProjectViewProjectNode" />
-              <item name="all-in" type="462c0819:PsiDirectoryNode" />
-              <item name="apps" type="462c0819:PsiDirectoryNode" />
-              <item name="static" type="462c0819:PsiDirectoryNode" />
-              <item name="markd" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="all-in" type="b2602c69:ProjectViewProjectNode" />
@@ -305,15 +289,15 @@
     <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\flask1\apps\templates" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\React_test\blogai\all-in\apps\static\markd" />
       <recent name="D:\zjr\all-in\apps\static\img" />
       <recent name="D:\flask1\apps\templates" />
       <recent name="D:\flask1\apps\static" />
       <recent name="D:\flask1" />
-      <recent name="D:\flask1\apps\static\ckeditor" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\flask1\apps\templates" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -476,13 +460,13 @@
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49707603" visible="true" weight="0.14993395" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49707603" visible="true" weight="0.14993395" />
       <window_info id="Structure" order="1" sideWeight="0.50292397" side_tool="true" weight="0.117492095" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info id="DB Browser" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.28470254" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.3186969" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36767897" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -490,7 +474,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4993395" weight="0.3286119" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49867898" weight="0.31561822" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.501321" side_tool="true" weight="0.3286119" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.329718" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3286119" />
       <window_info anchor="bottom" id="DB Execution Console" order="11" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -530,28 +514,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/migrations/versions/0372defaac0f_r.py" />
-    <entry file="file://$PROJECT_DIR$/apps/static/img/blog/blog-2.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/img/blog/blog-3.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/uploads/1f675baf550d4bf09bf4a2ea422c3572/20190221230125_74.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/uploads/01e97afa87f04be6b2d55f78e7e7c728/20190224171930_30.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/uploads/01e97afa87f04be6b2d55f78e7e7c728/20190226232028_59.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/uploads/0446e8dccb5e47ae98237926aaa1e277/20190212191139_77.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/uploads/889a6c47d3b94260956cd37ac70820f0/20190212192628_97.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/static/uploads/5940d8db814c47f0b68d6f1579f3b1ee/20190116231441_4.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
@@ -639,13 +601,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/css/style.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28776">
-          <caret line="1308" column="22" selection-start-line="1308" selection-start-column="22" selection-end-line="1308" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/templates/profiles.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1562">
@@ -700,39 +655,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/markd/examples/images/editormd-screenshot.png">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/markd/examples/images/7.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/markd/examples/images/4.jpg">
-      <provider selected="true" editor-type-id="images" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/markd/tests/bootstrap-test.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/templates/ck.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="246">
-          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/templates/markdown.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="61">
-          <caret line="17" column="47" selection-start-line="17" selection-start-column="47" selection-end-line="17" selection-end-column="47" />
-        </state>
-      </provider>
+    <entry file="file://$PROJECT_DIR$/apps/static/markd/examples/images/editormd-screenshot.png" />
+    <entry file="file://$PROJECT_DIR$/apps/static/markd/examples/images/7.jpg" />
+    <entry file="file://$PROJECT_DIR$/apps/static/markd/examples/images/4.jpg" />
+    <entry file="file://$PROJECT_DIR$/apps/static/markd/tests/bootstrap-test.html" />
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/markdown/__init__.py">
+      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/templates/test.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
+        <state relative-caret-position="836">
           <caret line="38" column="54" selection-start-line="38" selection-start-column="54" selection-end-line="38" selection-end-column="54" />
           <folding>
             <element signature="n#section#0;n#body#0;n#html#0;n#!!top" />
@@ -743,39 +675,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="66" column="43" selection-start-line="66" selection-start-column="43" selection-end-line="66" selection-end-column="43" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/markdown/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/markdown/core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-522">
+        <state relative-caret-position="7920">
           <caret line="374" column="4" selection-start-line="374" selection-start-column="4" selection-end-line="374" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/templates/posts.html">
+    <entry file="file://$PROJECT_DIR$/apps/templates/profile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="36" column="3" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
-          <folding>
-            <element signature="n#div#2;n#!!top" />
-          </folding>
+        <state relative-caret-position="308">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="281">
+        <state relative-caret-position="484">
           <caret line="30" column="46" selection-start-line="30" selection-start-column="19" selection-end-line="30" selection-end-column="46" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
@@ -783,31 +699,110 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/templates/profile.html">
+    <entry file="file://$PROJECT_DIR$/apps/static/markd/plugins/help-dialog/help.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="-660" />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/markd/plugins/image-dialog/image-dialog.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        <state relative-caret-position="26">
+          <caret line="36" column="14" selection-start-line="36" selection-start-column="14" selection-end-line="36" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/js/conver.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/css/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="156">
+          <caret line="1883" column="14" selection-start-line="1883" selection-start-column="14" selection-end-line="1883" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/templates/markdown.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="51" column="55" selection-start-line="51" selection-start-column="30" selection-end-line="51" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/templates/posts.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-833">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="n#div#2;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/ckeditor/styles.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1716">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/templates/ck.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="26" column="43" selection-start-line="26" selection-start-column="43" selection-end-line="26" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/uploads/49eb81e1e4ed92eadbc268b99fcd3f15/20190428225136_16.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/uploads/49eb81e1e4ed92eadbc268b99fcd3f15/20190428224721_64.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/static/ckeditor/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="117">
+          <caret line="30" selection-start-line="30" selection-end-line="30" />
+          <folding>
+            <element signature="e#0#1702#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/migrations/versions/e5b387ee48d1_avatar_1.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-110" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/apps/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2223">
+          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="551" selection-start-line="551" selection-end-line="561" selection-end-column="45" />
+        <state relative-caret-position="524">
+          <caret line="639" lean-forward="true" selection-start-line="639" selection-end-line="639" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/apps/model.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="112" column="29" lean-forward="true" selection-start-line="112" selection-start-column="29" selection-end-line="112" selection-end-column="29" />
-          <folding>
-            <element signature="e#3#32#0" expanded="true" />
-            <element signature="e#4760#5414#0" />
-            <element signature="e#5462#5579#0" />
           </folding>
         </state>
       </provider>

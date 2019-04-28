@@ -26,7 +26,9 @@
             <label class="control-label">{{form.body.label}}</label>
             {{form.body(class='ckeditor')}}
             <script>
-                  CKEDITOR.replace( 'body' );
+                  CKEDITOR.replace( 'body' {
+                filebrowserImageUploadUrl: '{{ url_for('e_upload') }}'
+            });
             </script>
             {{form.submit(class='btn btn-success')}}
         </div>

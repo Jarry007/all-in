@@ -3,7 +3,7 @@ from flask_uploads import configure_uploads
 from markdown import markdown
 
 from apps import app,db,pagedown,loginmanager,creat_folder,STATIC_DIR
-from flask import render_template, url_for, flash, request, redirect, session, jsonify, json
+from flask import render_template, url_for, flash, request, redirect, session, jsonify, json, Response, make_response
 from flask_script import Manager
 from flask_mail import Mail,Message
 import time,random,os
@@ -594,3 +594,46 @@ def markdown_edit():
 
         return redirect(url_for('index'))
     return render_template('markdown.html', form=form)
+
+@app.route('/e_upload', methods=['POST','GET'])
+@login_required
+def e_upload():
+    pic = request.files.get('editormd-image-file')
+    print(pic)
+    fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
+    creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
+    pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid), fn)
+    print(pic_dir)
+    pic.save(pic_dir)
+    folder = 'uploads/' + md5(current_user.uuid)
+    url = folder + '/' + fn
+    res = {
+        'success': 1,
+        'message': '上传成功',
+        'url': 'http://127.0.0.1:5000/static/'+url
+    }
+    return jsonify(res)
+
+@app.route('/c_upload', methods=['POST','GET'])
+@login_required
+def c_upload():
+    error = ''
+    callback = request.args.get("CKEditorFuncNum")
+    print(callback)
+    pic = request.files.get('upload')
+    fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
+    creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
+    pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid), fn)
+    pic.save(pic_dir)
+    folder = 'uploads/' + md5(current_user.uuid)
+    url = folder + '/' + fn
+    u = 'http://127.0.0.1:5000/static/'+url
+    cb_str = """
+    <script type="text/javascript">
+    window.parent.CKEDITOR.tools.callFunction(%s, '%s', '%s')
+    </script>
+    """% (callback, u, error)
+    response = make_response(cb_str)
+    response.headers["Content-Type"] = "text/html"
+
+    return response

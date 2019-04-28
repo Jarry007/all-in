@@ -148,12 +148,12 @@ class Article(db.Model):
         allowed_tags = ['a', 'abbr', 'acronym', 'b', 'blockquote', 'code',
                         'em', 'i', 'li', 'ol', 'pre', 'strong', 'ul',
                         'h1', 'h2', 'h3', 'p', 'img', 'video', 'div', 'iframe', 'p',
-                        'br', 'span', 'hr', 'src', 'class']
+                        'br', 'span', 'hr', 'src', 'class','table','thead','tr','th','td']
         allowed_attrs = {'*': ['class', 'pre'],
                          'a': ['href', 'rel'],
                          'img': ['src', 'alt']
                          }
-        text =  markdown(value, output='html',extensions=['markdown.extensions.toc','markdown.extensions.fenced_code'])
+        text =  markdown(value, output='html',extensions=['markdown.extensions.toc','markdown.extensions.fenced_code','markdown.extensions.tables'])
 
         target.body_html = bleach.linkify(bleach.clean(text,
             tags=allowed_tags, strip=True, attributes=allowed_attrs
