@@ -24,7 +24,7 @@
 
     {% endif %}
     {% else %}
-    <a href="{{url_for('follow',username=user.username)}}" class="more_btn">Follow</a>
+    <a href="{{url_for('follow',username=user.username)}}" class="more_btn">关注</a>
     {% endif %}
 </h5>
 {% endblock %}
@@ -62,14 +62,14 @@
                 {% if current_user.is_liked(posts.id)%}
                 <li><a class="more_btn" href="{{url_for('unlike', id=posts.id)}}">取消赞</a>{{posts.likes.count()}}</li>
                 {% else %}
-                <li><a class="more_btn" href="{{url_for('like', id=posts.id)}}"><i class="fa fa-heart-o"></i>赞</a>{{posts.likes.count()}}</li>
+                <li>赞 <i class="fa fa-heart-o"></i> : {{posts.likes.count()}}<a class="more_btn" href="{{url_for('like', id=posts.id)}}">赞</a></li>
                 {% endif %}
                  {% else %}
-                <li><a class="more_btn" href="{{url_for('like', id=posts.id)}}"><i class="fa fa-heart-o"></i></a>{{posts.likes.count()}}</li>
+                <li>赞 <i class="fa fa-heart-o"></i> : {{posts.likes.count()}}<a class="more_btn" href="{{url_for('like', id=posts.id)}}">赞</a></li>
                 {% endif %}
-                <li><a class="more_btn" data-toggle="collapse" data-target="#collapseComment" href="#"><i class="fa fa-bookmark-o" aria-hidden="true"></i>评论</a>{{posts.comments.count()}}
+                <li>评论 <i class="fa fa-commenting-o" aria-hidden="true"> : </i> <span> {{posts.comments.count()}}</span> <a class="more_btn" data-toggle="collapse" data-target="#collapseComment" href="#">评 </a>
                 </li>
-                <li><i class="fa fa-eye" aria-hidden="true"> 浏览量:<span>{{posts.view}}</span></i></li>
+                <li>浏览量 <i class="fa fa-street-view" aria-hidden="true"> : <span>{{posts.view}}</span></i></li>
             </ul>
         </div>
     </div>

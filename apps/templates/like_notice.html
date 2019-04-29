@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>点赞消息</h1>
+
+{% for j in likes%}
+<div>
+    <p><a>{{j.time}}</a></p>
+    <p><a href="{{url_for('profileid',username=j.author.username)}}">{{j.author.username}}</a></p>点赞了您的文章
+    <p><a href="{{url_for('posts',id=j.article_id)}}">{{j.article.tittle}}</a></p>
+
+    <p>_____________</p>
+</div>
+{%endfor%}
+
+<p></p>
+</body>
+</html>

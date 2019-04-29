@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+{% for i in followers%}
+<div>
+    <p>{{i.times}}</p>
+    <p><a href="{{url_for('profileid',username=i.follower.username)}}">{{i.follower.username}}</a> </p>开始关注你
+</div>
+{% endfor %}
+</body>
+</html>

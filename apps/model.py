@@ -39,6 +39,38 @@ class Role(UserMixin, db.Model):
     message_received = db.relationship('Message', foreign_keys='Message.recipient_id',
                                        backref='recipient', lazy='dynamic')
     last_message_read_time = db.Column(db.DATETIME)
+    last_comment_read_time = db.Column(db.DATETIME)
+    last_like_read_time = db.Column(db.DATETIME)
+    last_follow_read_time = db.Column(db.DATETIME)
+
+# 统计新的赞
+    def new_like(self):
+        last_read_time = self.last_like_read_time or datetime(1900, 1, 1) #上次查看的时间
+        like_num = 0
+        for i in self.article:   #遍历所有文章
+            for j in i.likes:    #遍历文章下的赞
+                if j.time > last_read_time:
+                    like_num += 1     #大于上次查看时间的话+1
+        return like_num
+
+    # 统计新的评论
+    def new_comment(self):
+        last_read_time = self.last_comment_read_time or datetime(1900, 1 ,1)
+        comment_num = 0
+        for i in self.article:
+            for j in i.comments:
+                if j.time > last_read_time:
+                    comment_num += 1
+        return comment_num
+
+    # 统计新的关注
+    def new_follow(self):
+        last_read_time = self.last_follow_read_time or datetime(1900, 1, 1)
+        follow_num = 0
+        for i in self.followers:
+            if i.times > last_read_time:
+                follow_num += 1
+        return follow_num
 
     def new_messages(self):
         last_read_time = self.last_message_read_time or datetime(1900, 1, 1)
@@ -68,7 +100,6 @@ class Role(UserMixin, db.Model):
     def follow(self, user):
         if not self.is_following(user):
             f = Follow(follower=self, followed=user)
-            print(f)
             db.session.add(f)
             db.session.commit()
 

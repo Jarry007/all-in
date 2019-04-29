@@ -1,3 +1,5 @@
+from datetime import datetime
+
 import requests
 from flask_uploads import configure_uploads
 from markdown import markdown
@@ -93,14 +95,18 @@ def index():
     list.agent = agen
     db.session.add(list)
     db.session.commit()
-    return render_template('index.html', posts=posts, news=news, article=article, hot=hot)
+    #like_num = current_user.new_like()
+
+    return render_template('index.html', posts=posts, news=news, article=article, hot=hot,)
 
 @app.route('/youcanyoudo',methods=['POST','GET'])
+@login_required
 def dele():
     posts = Article.query.all()
     return render_template('delete.html',posts=posts)
 
 @app.route('/youcanyoudo/<int:id>',methods=['POST','GET'])
+@login_required
 def delete(id):
     role = Article.query.filter_by(id=id).first()
     db.session.delete(role)
@@ -186,6 +192,7 @@ def regist():
     return render_template('register.html', form=form)
 
 @app.route('/list',methods=['POST','GET'])
+@login_required
 def listSql():
 
     page = request.args.get('page', 1, type=int)
@@ -400,7 +407,7 @@ def friends():
     page = request.args.get('page', 1, type=int)
     quer_y = current_user.friends_post
     article = quer_y.order_by(Article.addtime.desc()).paginate(
-        page, per_page=15, error_out=False
+        page, per_page=6, error_out=False
     )
     posts = article.items
 
@@ -453,47 +460,6 @@ def get_posts():
     return jsonify({
         'posts': [post.to_dict() for post in posts_],
         'news': [new.to_dict() for new in new_]
-    })
-
-
-@app.route('/get_json_comment/<article_id>', methods=['POST', 'GET'])
-def get_comment_json(article_id):
-    comments = Comment.query.filter_by(article_id=article_id)
-    return jsonify({
-        'comment': [comment.to_json() for comment in comments]
-    })
-
-
-@app.route('/get_json_reply/<comment>', methods=['POST', 'GET'])
-def get_json_reply(comment):
-    reply = Reply.query.filter_by(comment_id=comment)
-    print('reply get success!')
-    r = []
-    for i in reply:
-        r.append(i.to_json())
-    return jsonify(r)
-
-
-@app.route('/request_data', methods=['POST', 'GET'])
-def request_data():
-    data = request.values.get('data')
-    print(data)
-    return redirect(url_for('get_json_reply', comment=data))
-
-
-@app.route('/ttt', methods=['GET'])
-def ttt():
-    posts = Article.query.all()
-    t = []
-    r = []
-    for i in posts:
-        for j in i.comments.all():
-            t.append(j.to_json())
-
-    print(t)
-
-    return jsonify({
-        'comment': t
     })
 
 
@@ -618,6 +584,7 @@ def e_upload():
 @login_required
 def c_upload():
     error = ''
+    #如果无法获取CKEditorFuncNum,去编辑器config下添加config.filebrowserUploadMethod = 'form';
     callback = request.args.get("CKEditorFuncNum")
     print(callback)
     pic = request.files.get('upload')
@@ -637,3 +604,38 @@ def c_upload():
     response.headers["Content-Type"] = "text/html"
 
     return response
+
+@app.route('/like_notice', methods=['POST','GET'])
+@login_required
+def like_notice():
+    list = []
+    for i in current_user.article:
+        for j in i.likes:
+            list.append(j.id)
+
+    likes = Likes.query.filter(Likes.id.in_(list)).order_by(Likes.time.desc()).all()
+    current_user.last_like_read_time = datetime.now()
+    db.session.commit()
+    return render_template('like_notice.html', likes=likes)
+
+@app.route('/follow_notice', methods=['POST','GET'])
+@login_required
+def follow_notice():
+    followers=current_user.followers.order_by(Follow.times.desc()).all()
+    current_user.last_follow_read_time = datetime.now()
+    db.session.commit()
+    return render_template('follow_notice.html', followers=followers)
+
+@app.route('/comment_notice', methods=['POST','GET'])
+@login_required
+def comment_notice():
+   # 找出所有评论，加入一个数组
+    list = []
+    for i in current_user.article:
+        for j in i.comments:
+            list.append(j.id)
+
+    comments = Comment.query.filter(Comment.id.in_(list)).order_by(Comment.time.desc()).all()
+    current_user.last_comment_read_time = datetime.now()
+    db.session.commit()
+    return render_template('comment_notice.html', comments= comments)

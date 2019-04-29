@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% for j in comments%}
+<div>
+    <p><a>{{j.time}}</a></p>
+    <p><a href="{{url_for('profileid',username=j.author.username)}}">{{j.author.username}}</a></p>评论了您的文章
+    <p><a href="{{url_for('posts',id=j.article_id)}}">{{j.article.tittle}}</a></p>
+    <p>{{j.body}}</p>
+    <p>_____________</p>
+</div>
+{%endfor%}
+
+</body>
+</html>

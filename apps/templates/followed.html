@@ -13,10 +13,11 @@
     <tr>
         <th>用户</th>
         <th>关注时间</th>
+        <th> 操作</th>
     </tr>
     </thead>
     {% for follow in follows %}
-    {% if follow !=user %}
+
     <tr>
         <td>
             <a href="{{ url_for('profileid', username = follow.follower.username) }}">
@@ -26,14 +27,28 @@
         </td>
         <td>
             {{ follow.times }}
-            </a>
+
         </td>
 
+ {% if current_user.is_authenticated  %}
+        {% if follow.follower != current_user %}
+        <td>
+              {% if not current_user.is_following(follow.follower) %}
+            <a href="{{url_for('follow',username=follow.follower.username)}}" class="more_btn">关注</a>
+            {% else %}
+            <a href="{{url_for('unfollow',username=follow.follower.username)}}" class="more_btn">取消关注</a>
+            {% endif %}
+        </td>
+        {% endif%}
+        {% else %}
+        <td> <a href="{{url_for('follow',username=follow.follower.username)}}" class="more_btn">关注</a></td>
+ {% endif %}
+
     </tr>
-    {% endif %}
+
     {% endfor %}
 </table>
-
+{{ mr.pagination_widget(pagination,'followers',user.username)}}
 {% endblock%}
 {%block col%}
 {% endblock%}

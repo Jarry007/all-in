@@ -1800,7 +1800,8 @@ i:before {
   position: relative;
   height:200px;
   overflow:hidden;
-  border-bottom:1px solid #9993bc
+  border-bottom:1px solid #9993bc;
+  background-image: url(https://blogai.cn/static/img/blog/blog-2.jpg);
 }
 .blog_img img{
 
@@ -1819,7 +1820,7 @@ display: inline-block;
 		width: 27%;
 		text-align: center;
 		line-height: 40px;
-		margin-left:18px;
+		margin-left:5px;
 		-webkit-transition: all 400ms linear 0s;
   -o-transition: all 400ms linear 0s;
   transition: all 400ms linear 0s;
@@ -1833,10 +1834,9 @@ border-radius: 20px;
   color: #fff;
 }
 .blog_text_li a{
-color: #fff;
+color: #309eab;
 }
 .blog_text_li i {
-    margin-right: 10px;
     margin-left:10px;
 
 }
@@ -2596,7 +2596,8 @@ white-space: nowrap;
 
 
 /* 分页样式二 */
-.pagination-outer{ text-align: center; }
+.pagination-outer{ margin:0 auto;
+ text-align:center;}
 .pagination{
     font-family: 'Rubik', sans-serif;
     display: inline-flex;
