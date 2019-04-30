@@ -1,4 +1,6 @@
+# -*- coding: utf-8 -*-
 from datetime import datetime
+from imp import reload
 
 import requests
 from flask_uploads import configure_uploads
@@ -11,16 +13,14 @@ from flask_mail import Mail,Message
 import time,random,os
 from threading import Thread
 
+from apps.WXBizDataCrypt import WXBizDataCrypt
 from .model import Role, UserProfile, Article, IpList, Comment, Reply,Follow,Likes
-import hashlib,re
+import hashlib
 from .forms import NameForm, Login, Register, Profile, photosSet,PostForm,CommentForm,ReplyForm,Mark
 from flask_login import login_user,login_required,logout_user,current_user
-from functools import wraps
 import uuid
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 from qqwry import QQwry
-from .qqwe import drow
-from werkzeug.utils import secure_filename
 
 
 
@@ -455,19 +455,24 @@ def vue_list():
 
 @app.route('/mp/posts', methods=['POST', 'GET'])
 def get_posts():
-    posts_ = Article.query.all()
+    page = request.values.get('page', 1, type=int)
+    posts_ = Article.query.paginate(page, per_page=6, error_out=False)
+    return jsonify({
+        'posts': [post.to_dict() for post in posts_.items]
+    })
+@app.route('/mp/new', methods=['POST', 'GET'])
+def get_news():
+
     new_ = Article.query.order_by(Article.view.desc()).limit(4).all()
     return jsonify({
-        'posts': [post.to_dict() for post in posts_],
         'news': [new.to_dict() for new in new_]
     })
-
 
 @app.route('/mp/like', methods=['GET', 'POST'])
 def mp_like():
     info = request.values.get('info')
-    appid = 'wx41756aa8716ef1b9'
-    secret = '5706fe63861da62c46b8ce392d3eec6f'
+    appid = os.environ.get('APP_ID')
+    secret = os.environ.get('MP_KEY')
     user_info = json.loads(info)
     code = user_info['code']
     url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code' % (
@@ -477,11 +482,11 @@ def mp_like():
     session_key = session_['session_key']
     encryptedData = user_info['encryptedData']
     iv = user_info['iv']
-    # pc = WXBizDataCrypt(appid, session_key)
+    pc = WXBizDataCrypt(appid, session_key)
     print(session_key)
 
-    # return pc.decrypt(encryptedData, iv)
-    return
+    return pc.decrypt(encryptedData, iv)
+
 
 
 @app.route('/guaguaka', methods=['POST', 'GET'])
@@ -564,19 +569,32 @@ def markdown_edit():
 @app.route('/e_upload', methods=['POST','GET'])
 @login_required
 def e_upload():
+
+    text = 'https://blogai.cn | @{}'.format(current_user.username)
+
     pic = request.files.get('editormd-image-file')
-    print(pic)
     fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
     creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
     pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid), fn)
-    print(pic_dir)
     pic.save(pic_dir)
+    image = Image.open(pic_dir)
+    draw = ImageDraw.Draw(image)
+    width, height = image.size
+    margin = 20
+    font = ImageFont.truetype("simsun.ttc", 40, encoding="unic")
+    font_w,font_h = draw.textsize(text, font)
+
+    x = (width  - font_w - margin) / 2
+    y = height  - font_h - margin
+    draw.text((x, y), text, fill=(144, 109, 189, 180))
+    image.save(pic_dir)
+
     folder = 'uploads/' + md5(current_user.uuid)
     url = folder + '/' + fn
     res = {
         'success': 1,
         'message': '上传成功',
-        'url': 'http://127.0.0.1:5000/static/'+url
+        'url': 'https://blogai.cn/static/'+url
     }
     return jsonify(res)
 
@@ -585,6 +603,7 @@ def e_upload():
 def c_upload():
     error = ''
     #如果无法获取CKEditorFuncNum,去编辑器config下添加config.filebrowserUploadMethod = 'form';
+    text = 'https://blogai.cn | @%s' % current_user.username
     callback = request.args.get("CKEditorFuncNum")
     print(callback)
     pic = request.files.get('upload')
@@ -592,9 +611,19 @@ def c_upload():
     creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
     pic_dir = os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid), fn)
     pic.save(pic_dir)
+    image = Image.open(pic_dir)
+    draw = ImageDraw.Draw(image)
+    width, height = image.size
+    margin = 20
+    font = ImageFont.truetype("simsun.ttc", 40, encoding="unic")
+    textWidth, textHeight = draw.textsize(text, font)
+    x = (width - textWidth - margin) / 2  # 计算横轴位置
+    y = height - textHeight - margin  # 计算纵轴位置
+    draw.text((x, y), text, fill=(144, 109, 189, 180))
+    image.save(pic_dir)
     folder = 'uploads/' + md5(current_user.uuid)
     url = folder + '/' + fn
-    u = 'http://127.0.0.1:5000/static/'+url
+    u = 'https://blogai.cn/static/'+url
     cb_str = """
     <script type="text/javascript">
     window.parent.CKEDITOR.tools.callFunction(%s, '%s', '%s')
