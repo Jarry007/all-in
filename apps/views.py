@@ -468,8 +468,8 @@ def get_news():
         'news': [new.to_dict() for new in new_]
     })
 
-@app.route('/mp/like', methods=['GET', 'POST'])
-def mp_like():
+@app.route('/mp/login', methods=['GET','POST'])
+def mp_login():
     info = request.values.get('info')
     appid = os.environ.get('APP_ID')
     secret = os.environ.get('MP_KEY')
@@ -483,11 +483,81 @@ def mp_like():
     encryptedData = user_info['encryptedData']
     iv = user_info['iv']
     pc = WXBizDataCrypt(appid, session_key)
-    print(session_key)
+    da = json.loads(pc.decrypt(encryptedData, iv).data)
+    mp_id = md5(da['openId'])
+    print(mp_id)
+    user = Role.query.filter_by(uuid=mp_id).first()
+    if not user:
+        mp = Role()
+        mp.uuid = mp_id
+        mp.pwd = md5(str(datetime.now()))
+        mp.username = da['nickName']
+        mp.default_avatar = da['avatarUrl']
+        mp.email = da['openId']
+        db.session.add(mp)
+        db.session.commit()
 
     return pc.decrypt(encryptedData, iv)
 
+@app.route('/mp/like', methods=['GET', 'POST'])
+def mp_like():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    num = user_info['num']
+    user = Role.query.filter_by(uuid=wx_name).first()
+    article = Article.query.filter_by(id=num).first()
+    if user.is_liked(num):
+        user.unlike(num)
+    else:
+        user.like(num)
 
+    return jsonify(article.to_dict())
+
+
+@app.route('/mp/comment',methods=['POST','GET'])
+def mp_comment():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    user = Role.query.filter_by(uuid=wx_name).first()
+    if user :
+        comment = Comment()
+        comment.body = user_info['wx_comment']
+        comment.user_id = wx_name
+        comment.article_id = user_info['num']
+        db.session.add(comment)
+        db.session.commit()
+    return 'success'
+
+@app.route('/mp/my_say', methods=['POST','GET'])
+def mp_my_say():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    user = Role.query.filter_by(uuid=wx_name).first()
+    comments = user.comments.order_by(Comment.time.desc())
+    return jsonify({
+        'all':[comment.to_say() for comment in comments]
+    })
+@app.route('/mp/my_like', methods=['POST','GET'])
+def mp_my_like():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    user = Role.query.filter_by(uuid=wx_name).first()
+    likes = user.likes.order_by(Likes.time.desc())
+    return jsonify({
+        'all':[like.to_like() for like in likes]
+    })
+
+@app.route('/mp/refresh', methods=['POST','GET'])
+def mp_refresh():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    num = user_info['num']
+    article = Article.query.filter_by(id=num).first()
+    return jsonify(article.to_dict())
 
 @app.route('/guaguaka', methods=['POST', 'GET'])
 def guaguaka():
@@ -571,7 +641,6 @@ def markdown_edit():
 def e_upload():
 
     text = 'https://blogai.cn | @{}'.format(current_user.username)
-
     pic = request.files.get('editormd-image-file')
     fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
     creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
@@ -581,12 +650,12 @@ def e_upload():
     draw = ImageDraw.Draw(image)
     width, height = image.size
     margin = 20
-    font = ImageFont.truetype("simsun.ttc", 40, encoding="unic")
+    font = ImageFont.truetype("C://Windows/Fonts/simsun.ttc", 20)
     font_w,font_h = draw.textsize(text, font)
 
     x = (width  - font_w - margin) / 2
     y = height  - font_h - margin
-    draw.text((x, y), text, fill=(144, 109, 189, 180))
+    draw.text((x, y), text, fill=(144, 109, 189),font=font)
     image.save(pic_dir)
 
     folder = 'uploads/' + md5(current_user.uuid)
@@ -594,7 +663,7 @@ def e_upload():
     res = {
         'success': 1,
         'message': '上传成功',
-        'url': 'https://blogai.cn/static/'+url
+        'url': 'http://127.0.0.1:5000/static/'+url
     }
     return jsonify(res)
 
@@ -605,7 +674,6 @@ def c_upload():
     #如果无法获取CKEditorFuncNum,去编辑器config下添加config.filebrowserUploadMethod = 'form';
     text = 'https://blogai.cn | @%s' % current_user.username
     callback = request.args.get("CKEditorFuncNum")
-    print(callback)
     pic = request.files.get('upload')
     fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
     creat_folder(os.path.join(app.config['UPLOADS_FOLDER'], md5(current_user.uuid)))
@@ -615,15 +683,15 @@ def c_upload():
     draw = ImageDraw.Draw(image)
     width, height = image.size
     margin = 20
-    font = ImageFont.truetype("simsun.ttc", 40, encoding="unic")
+    font = ImageFont.truetype("C://Windows/Fonts/simsun.ttc", 20)
     textWidth, textHeight = draw.textsize(text, font)
-    x = (width - textWidth - margin) / 2  # 计算横轴位置
-    y = height - textHeight - margin  # 计算纵轴位置
-    draw.text((x, y), text, fill=(144, 109, 189, 180))
+    x = (width - textWidth - margin) / 2
+    y = height - textHeight - margin
+    draw.text((x, y), text, fill=(144, 109, 189),font=font)
     image.save(pic_dir)
     folder = 'uploads/' + md5(current_user.uuid)
     url = folder + '/' + fn
-    u = 'https://blogai.cn/static/'+url
+    u = 'http://127.0.0.1:5000/static/'+url
     cb_str = """
     <script type="text/javascript">
     window.parent.CKEDITOR.tools.callFunction(%s, '%s', '%s')

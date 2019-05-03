@@ -11,7 +11,11 @@
 {% endblock %}
 
 {% block title%}
-<img src="{{user.avatar}}" width="180" height="180" class="circle">
+{% if user.avatar%}
+<img src="{{url_for('static',filename=user.avatar)}}" width="150" height="150" class="circle">
+{% else%}
+<img src="{{user.default_avatar}}" width="150" height="150" class="circle">
+{% endif %}
 <h5><p><a href="{{url_for('profileid',username=user.username)}}">{{user.username}}</a></p>
     {% if current_user.is_authenticated %}
 
@@ -46,7 +50,11 @@
         赞过的人：
         <ul>
             {% for h in posts.likes%}
+            {% if h.author.avatar%}
             <li><img src="{{h.author.avatar}}"></li>
+            {% else %}
+            <li><img src="{{h.author.default_avatar}}"></li>
+            {% endif %}
             {% endfor%}
         </ul>
         </div>

@@ -161,18 +161,31 @@ class Article(db.Model):
             'like_count': self.likes.count(),
             'comment': self.comments.count(),
             'link_': {
-                'avatar': self.role.avatar,
+                'avatar': self.send_avatar(),
                 'username': self.role.username
             },
-            'new_comment': {'comments': self.filter_c}
+            'new_comment': {'comments': self.filter_c},
+            'likes':self.filter_l()
             # 这里是一个路由，怎样让他返回一个查询结果，而不仅仅是一个路由.添加函数，使其返回。在
         }
         return data
+
+    def send_avatar(self):
+        if self.role.avatar:
+            avatar = self.role.avatar
+        else:
+            avatar = self.role.default_avatar
+
+        return avatar
 
     @property
     def filter_c(self):
         comments = Comment.query.filter_by(article_id=self.id).all()
         return [comment.to_json() for comment in comments]
+
+    def filter_l(self):
+        likes = Likes.query.filter_by(article_id=self.id).all()
+        return [like.to_like() for like in likes]
 
     @staticmethod
     def on_change_body(target, value, oldvalue, initator):
@@ -200,6 +213,25 @@ class Likes(db.Model):
     article_id = db.Column(db.Integer, db.ForeignKey('article1.id'))
     user_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'))
     time = db.Column(db.DATETIME, default=datetime.now)
+
+    def to_like(self):
+        data = {
+            'id': self.id,
+            'article_id': self.article_id,
+            'article_title':self.article.tittle,
+            'user_id': self.user_id,
+            'time': self.time,
+            'img':self.send_img()
+
+        }
+        return data
+    def send_img(self):
+        if self.article.img:
+            img = self.article.img
+        else:
+            img = 'img/blog/blog-2.jpg'
+
+        return img
 
 
 class UserProfile(db.Model):
@@ -238,7 +270,7 @@ class Comment(db.Model):
             'body': self.body,
             'time': self.time,
             '_link': {
-                'avatar': self.author.avatar,
+                'avatar': self.send_avatar(),
                 'username': self.author.username
             },
             'replies': {
@@ -246,6 +278,37 @@ class Comment(db.Model):
             }
         }
         return data
+    def to_say(self):
+        data={
+            'id' :self.id,
+            'article_id': self.article_id,
+            'article_title':self.article.tittle,
+            'body':self.body,
+            'user_id': self.user_id,
+            'time': self.time,
+            'img':self.send_img()
+        }
+
+        return data
+    def send_img(self):
+        if self.article.img:
+            img = self.article.img
+        else:
+            img = 'img/blog/blog-2.jpg'
+
+        return img
+
+    def show_title(self):
+
+        return self.article.tittle
+
+    def send_avatar(self):
+        if self.author.avatar:
+            avatar = self.author.avatar
+        else:
+            avatar = self.author.default_avatar
+
+        return avatar
 
     # 这里必须返回值是一个list,否则后续json话时无法成功
     @property
@@ -287,6 +350,7 @@ class Message(db.Model):
     recipient_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'), primary_key=True)
     body = db.Column(db.String(140))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
+
 
 
 if __name__ == '__main__':
