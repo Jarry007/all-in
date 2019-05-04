@@ -14,7 +14,7 @@ import time,random,os
 from threading import Thread
 
 from apps.WXBizDataCrypt import WXBizDataCrypt
-from .model import Role, UserProfile, Article, IpList, Comment, Reply,Follow,Likes
+from .model import Role, UserProfile, Article, IpList, Comment, Reply, Follow, Likes, LikeComment
 import hashlib
 from .forms import NameForm, Login, Register, Profile, photosSet,PostForm,CommentForm,ReplyForm,Mark
 from flask_login import login_user,login_required,logout_user,current_user
@@ -514,13 +514,53 @@ def mp_like():
 
     return jsonify(article.to_dict())
 
+@app.route('/mp/like_comment', methods=['GET', 'POST'])
+def mp_like_comment():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    num = user_info['num']
+    user = Role.query.filter_by(uuid=wx_name).first()
+    comment = Comment.query.filter_by(id=num).first()
+    if user.is_liked_comment(num):
+        user.unlike_comment(num)
+    else:
+        user.like_comment(num)
+
+    return jsonify(comment.to_json())
+
+@app.route('/mp/notice', methods=['POST','GET'])
+def mp_notice():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    user = Role.query.filter_by(uuid=wx_name).first()
+    count = user.new_comment_like()
+    list = []
+    for i in user.comments:
+        for j in i.likes:
+            list.append(j.id)
+    comment_like = LikeComment.query.filter(LikeComment.id.in_(list)).order_by(LikeComment.time.desc()).all()
+
+    user.last_reply_read_time = datetime.now()
+
+    print(str(count))
+    db.session.commit()
+
+    return jsonify({
+        'all':[like.to_like_comment() for like in comment_like],
+        'count':str(count)
+    })
+
 
 @app.route('/mp/comment',methods=['POST','GET'])
 def mp_comment():
     info = request.values.get('info')
     user_info = json.loads(info)
     wx_name = md5(user_info['openId'])
+    num = user_info['num']
     user = Role.query.filter_by(uuid=wx_name).first()
+    article = Article.query.filter_by(id=num).first()
     if user :
         comment = Comment()
         comment.body = user_info['wx_comment']
@@ -528,7 +568,7 @@ def mp_comment():
         comment.article_id = user_info['num']
         db.session.add(comment)
         db.session.commit()
-    return 'success'
+    return jsonify(article.to_dict())
 
 @app.route('/mp/my_say', methods=['POST','GET'])
 def mp_my_say():

@@ -28,6 +28,7 @@ class Role(UserMixin, db.Model):
     comments = db.relationship('Comment', backref='author', lazy='dynamic')
     replies = db.relationship('Reply', backref='author', lazy='dynamic')
     likes = db.relationship('Likes', backref='author', lazy='dynamic')
+    likes_comment = db.relationship('LikeComment', backref='author', lazy='dynamic')
     followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],
                                backref=db.backref('follower', lazy='joined'), lazy='dynamic',
                                cascade='all, delete-orphan')
@@ -42,7 +43,17 @@ class Role(UserMixin, db.Model):
     last_comment_read_time = db.Column(db.DATETIME)
     last_like_read_time = db.Column(db.DATETIME)
     last_follow_read_time = db.Column(db.DATETIME)
+    last_reply_read_time = db.Column(db.DATETIME)
 
+
+    def new_comment_like(self):
+        last_read_time = self.last_reply_read_time or datetime(1900, 1, 1)
+        like_num = 0
+        for i in self.comments:
+            for j in i.likes:
+                if j.time > last_read_time:
+                    like_num += 1
+        return like_num
 # 统计新的赞
     def new_like(self):
         last_read_time = self.last_like_read_time or datetime(1900, 1, 1) #上次查看的时间
@@ -93,6 +104,23 @@ class Role(UserMixin, db.Model):
 
     def unlike(self, post_id):
         l = self.likes.filter_by(article_id=post_id).first()
+        if l:
+            db.session.delete(l)
+            db.session.commit()
+
+    def is_liked_comment(self, post_id):
+        return self.likes_comment.filter_by(comment_id=post_id).first() is not None
+
+    def like_comment(self, post_id):
+        if not self.is_liked_comment(post_id):
+            l = LikeComment()
+            l.comment_id = post_id
+            l.user_id = self.uuid
+            db.session.add(l)
+            db.session.commit()
+
+    def unlike_comment(self, post_id):
+        l = self.likes_comment.filter_by(comment_id=post_id).first()
         if l:
             db.session.delete(l)
             db.session.commit()
@@ -261,6 +289,7 @@ class Comment(db.Model):
     body = db.Column(db.String(200))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
     reply = db.relationship('Reply', backref='comments', lazy='dynamic')
+    likes = db.relationship('LikeComment', backref='comments', lazy='dynamic')
 
     def to_json(self):
         data = {
@@ -342,6 +371,24 @@ class Reply(db.Model):
 
         return data
 
+class LikeComment(db.Model):
+    __tablename__ = 'likecomment'
+    id = db.Column(db.Integer, primary_key=True)
+    comment_id = db.Column(db.Integer, db.ForeignKey('comments1.id'))
+    user_id = db.Column(db.String(32), db.ForeignKey('role1.uuid'))
+    time = db.Column(db.DATETIME, default=datetime.now)
+
+    def to_like_comment(self):
+        data = {
+            'id': self.id,
+            'comment_id': self.comment_id,
+            'comment_body': self.comments.body,
+            'user_id': self.user_id,
+            'user_name':self.author.username,
+            'time': self.time,
+            'article_id': self.comments.article_id
+        }
+        return data
 
 class Message(db.Model):
     __tablename__ = 'message1'

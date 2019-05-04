@@ -107,7 +107,13 @@
                     <ul>
                         {% for comment in comments %}
                         <li>
-                            <img src="{{comment.author.avatar}}"><span>
+                             {% if comment.author.avatar%}
+            <img src="{{url_for('static',filename = comment.author.avatar)}}">
+            {% else %}
+            <img src="{{comment.author.default_avatar}}">
+            {% endif %}
+
+                            <span>
                             <a href="{{url_for('profileid',username=comment.author.username)}}">{{comment.author.username}}</a>
                             {% if comment.user_id ==user.uuid %}
                                 (作者)

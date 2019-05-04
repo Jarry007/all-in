@@ -1957,13 +1957,18 @@ border-right:1px solid #ddd}
 }
 
 .blog_text p {
-  font-size: 14px;
-  line-height: 25px;
-  color: #a098bd;
+  font-size: 15px;
+  line-height: 27px;
+  color: #05525a;
   font-family:"Roboto", sans-serif;
 
 }
-
+.blog_text pre{
+    box-shadow: 1px 4px 5px 0px #ebebf1;
+    border-radius: 10px;
+        margin-top: 10px;
+            background: #f8f8ff;
+}
 
 .p1{
 overflow: hidden;
