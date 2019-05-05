@@ -44,6 +44,7 @@ class Role(UserMixin, db.Model):
     last_like_read_time = db.Column(db.DATETIME)
     last_follow_read_time = db.Column(db.DATETIME)
     last_reply_read_time = db.Column(db.DATETIME)
+    last_comment_like_time = db.Column(db.DATETIME)
 
 
     def new_comment_like(self):
@@ -339,6 +340,8 @@ class Comment(db.Model):
 
         return avatar
 
+
+
     # 这里必须返回值是一个list,否则后续json话时无法成功
     @property
     def filter_reply(self):
@@ -358,18 +361,31 @@ class Reply(db.Model):
         data = {
             'id': self.id,
             'comment_id': self.comment_id,
-            'replies_id': self.replies_id,
-
+            'comment_body': self.comments.body,
+            'user_id': self.replies_id,
             'body': self.body,
             'time': self.time,
-            '_link': {
-                'avatar': self.author.avatar,
-                'username': self.author.username
-            }
-
+            'user_name': self.author.username,
+            'article_id': self.comments.article_id,
+            'user_avatar': self.send_avatar(),
+            'new': self.is_new(self.author.last_reply_read_time or datetime(1900, 1, 1))
         }
-
         return data
+
+    def send_avatar(self):
+        if self.author.avatar:
+            avatar = self.author.avatar
+        else:
+            avatar = self.author.default_avatar
+        return avatar
+
+    def is_new(self,time):
+        if self and self.time > time:
+            status = 'is_new'
+        else:
+            status = ''
+        return status
+
 
 class LikeComment(db.Model):
     __tablename__ = 'likecomment'
@@ -386,9 +402,27 @@ class LikeComment(db.Model):
             'user_id': self.user_id,
             'user_name':self.author.username,
             'time': self.time,
-            'article_id': self.comments.article_id
+            'article_id': self.comments.article_id,
+            'user_avatar':self.send_avatar(),
+            'new':self.is_new(self.author.last_comment_like_time or datetime(1900, 1, 1))
         }
         return data
+
+    def send_avatar(self):
+        if self.author.avatar:
+            avatar = self.author.avatar
+        else:
+            avatar = self.author.default_avatar
+
+        return avatar
+
+    def is_new(self,time):
+        if self and self.time > time:
+            status = 'is_new'
+        else:
+            status = ''
+        return status
+
 
 class Message(db.Model):
     __tablename__ = 'message1'

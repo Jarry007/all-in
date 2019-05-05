@@ -533,23 +533,41 @@ def mp_like_comment():
 def mp_notice():
     info = request.values.get('info')
     user_info = json.loads(info)
+    page = user_info['page'] or 1
     wx_name = md5(user_info['openId'])
     user = Role.query.filter_by(uuid=wx_name).first()
-    count = user.new_comment_like()
-    list = []
-    for i in user.comments:
-        for j in i.likes:
-            list.append(j.id)
-    comment_like = LikeComment.query.filter(LikeComment.id.in_(list)).order_by(LikeComment.time.desc()).all()
+   # count = user.new_comment_like()
+    #用户所有评论
+    all_comment_id = [coment.id for coment in user.comments.all()]
+    #每条评论收到的赞
+    comment_like = LikeComment.query.filter(LikeComment.comment_id.in_(all_comment_id)).order_by(
+        LikeComment.time.desc()).paginate(page, per_page=10, error_out=False)
+    data = [like.to_like_comment() for like in comment_like.items]
 
-    user.last_reply_read_time = datetime.now()
-
-    print(str(count))
+    user.last_comment_like_time = datetime.now()
     db.session.commit()
 
     return jsonify({
-        'all':[like.to_like_comment() for like in comment_like],
-        'count':str(count)
+        'all':data
+    })
+@app.route('/mp/notice_reply', methods=['POST','GET'])
+def mp_notice_reply():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    page = user_info['page']
+    wx_name = md5(user_info['openId'])
+    user = Role.query.filter_by(uuid=wx_name).first()
+    all_comment_id = [coment.id for coment in user.comments.all()]
+    comment_reply = Reply.query.filter(Reply.comment_id.in_(all_comment_id)).order_by(
+        Reply.time.desc()).paginate(page,per_page=10, error_out=False
+    )
+    data = [reply.to_json() for reply in comment_reply.items]
+
+    user.last_reply_read_time = datetime.now()
+    db.session.commit()
+
+    return jsonify({
+        'all':data
     })
 
 
