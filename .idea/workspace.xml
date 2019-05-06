@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1456a29e-6d47-491d-b102-5f1c7bdd926a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/apps/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/static/uploads/49eb81e1e4ed92eadbc268b99fcd3f15/20190428012835_5.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/static/uploads/49eb81e1e4ed92eadbc268b99fcd3f15/20190428022454_18.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/apps/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/views.py" afterDir="false" />
@@ -69,12 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="421" column="13" lean-forward="true" selection-start-line="421" selection-start-column="13" selection-end-line="421" selection-end-column="13" />
-              <folding>
-                <element signature="e#10799#11217#0" />
-                <element signature="e#11569#11698#0" />
-              </folding>
+            <state relative-caret-position="9174">
+              <caret line="421" column="13" selection-start-line="421" selection-start-column="13" selection-end-line="421" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -82,7 +78,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/migrations/versions/85819af87e55_nnn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
+            <state relative-caret-position="220">
               <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
             </state>
           </provider>
@@ -91,8 +87,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/apps/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="536" column="38" lean-forward="true" selection-start-line="536" selection-start-column="38" selection-end-line="536" selection-end-column="38" />
+            <state relative-caret-position="1730">
+              <caret line="529" column="30" lean-forward="true" selection-start-line="529" selection-start-column="30" selection-end-line="529" selection-end-column="30" />
               <folding>
                 <element signature="e#24#53#0" expanded="true" />
               </folding>
@@ -101,9 +97,18 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/werkzeug/local.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="132">
+              <caret line="346" selection-start-line="346" selection-end-line="346" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/apps/static/css/style.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
+            <state relative-caret-position="43098">
               <caret line="1959" column="18" selection-start-line="1959" selection-start-column="18" selection-end-line="1965" selection-end-column="15" />
             </state>
           </provider>
@@ -444,7 +449,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49707603" visible="true" weight="0.14993395" />
       <window_info id="Structure" order="1" sideWeight="0.50292397" side_tool="true" weight="0.117492095" />
@@ -452,7 +456,7 @@
       <window_info id="DB Browser" order="3" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4305949" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.26912183" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.36767897" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -500,16 +504,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/apps/templates/template.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="52" column="14" selection-start-line="52" selection-start-column="14" selection-end-line="52" selection-end-column="14" />
-          <folding>
-            <element signature="n#div#0;n#!!top" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/apps/templates/ckdemo.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="154">
@@ -783,35 +777,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/static/css/style.css">
+    <entry file="file://$PROJECT_DIR$/apps/model.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="1959" column="18" selection-start-line="1959" selection-start-column="18" selection-end-line="1965" selection-end-column="15" />
+        <state relative-caret-position="9174">
+          <caret line="421" column="13" selection-start-line="421" selection-start-column="13" selection-end-line="421" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/migrations/versions/85819af87e55_nnn.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
+        <state relative-caret-position="220">
           <caret line="11" column="39" selection-start-line="11" selection-start-column="39" selection-end-line="11" selection-end-column="39" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/apps/model.py">
+    <entry file="file://$PROJECT_DIR$/apps/static/css/style.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="421" column="13" lean-forward="true" selection-start-line="421" selection-start-column="13" selection-end-line="421" selection-end-column="13" />
-          <folding>
-            <element signature="e#10799#11217#0" />
-            <element signature="e#11569#11698#0" />
-          </folding>
+        <state relative-caret-position="43098">
+          <caret line="1959" column="18" selection-start-line="1959" selection-start-column="18" selection-end-line="1965" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python36/Lib/site-packages/werkzeug/local.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="132">
+          <caret line="346" selection-start-line="346" selection-end-line="346" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/apps/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="536" column="38" lean-forward="true" selection-start-line="536" selection-start-column="38" selection-end-line="536" selection-end-column="38" />
+        <state relative-caret-position="1730">
+          <caret line="529" column="30" lean-forward="true" selection-start-line="529" selection-start-column="30" selection-end-line="529" selection-end-column="30" />
           <folding>
             <element signature="e#24#53#0" expanded="true" />
           </folding>

@@ -507,6 +507,8 @@ def mp_like():
     num = user_info['num']
     user = Role.query.filter_by(uuid=wx_name).first()
     article = Article.query.filter_by(id=num).first()
+    article.view += 1
+    db.session.commit()
     if user.is_liked(num):
         user.unlike(num)
     else:
@@ -570,6 +572,26 @@ def mp_notice_reply():
         'all':data
     })
 
+@app.route('/mp/all_notice', methods=['POST','GET'])
+def mp_all_notice():
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    wx_name = md5(user_info['openId'])
+    user = Role.query.filter_by(uuid=wx_name).first()
+    all_comment_id = [coment.id for coment in user.comments.all()]
+    comment_like = LikeComment.query.filter(LikeComment.comment_id.in_(all_comment_id)).order_by(
+        LikeComment.time.desc()).paginate(1, per_page=10, error_out=False)
+    comment_reply = Reply.query.filter(Reply.comment_id.in_(all_comment_id)).order_by(
+        Reply.time.desc()).paginate(1, per_page=10, error_out=False
+                                    )
+    data = [reply.to_json() for reply in comment_reply.items]
+    data1 = [like.to_like_comment() for like in comment_like.items]
+
+    return jsonify({
+        'reply':data,
+        'like':data1
+    })
+
 
 @app.route('/mp/comment',methods=['POST','GET'])
 def mp_comment():
@@ -580,6 +602,7 @@ def mp_comment():
     user = Role.query.filter_by(uuid=wx_name).first()
     article = Article.query.filter_by(id=num).first()
     if user :
+        article.view += 1
         comment = Comment()
         comment.body = user_info['wx_comment']
         comment.user_id = wx_name
@@ -615,6 +638,8 @@ def mp_refresh():
     user_info = json.loads(info)
     num = user_info['num']
     article = Article.query.filter_by(id=num).first()
+    article.view += 1
+    db.session.commit()
     return jsonify(article.to_dict())
 
 @app.route('/guaguaka', methods=['POST', 'GET'])
