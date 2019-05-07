@@ -193,15 +193,33 @@ class Article(db.Model):
                 'avatar': self.send_avatar(),
                 'username': self.role.username
             },
-            'new_comment': {'comments': self.filter_c},
+            'new_comment': {
+                'comments': self.filter_c
+            },
             'likes':self.filter_l()
             # 这里是一个路由，怎样让他返回一个查询结果，而不仅仅是一个路由.添加函数，使其返回。在
         }
         return data
 
+    def to_json(self):
+        data={
+            'id': self.id,
+            'tittle': self.tittle,
+            'view_count': self.view,
+            'img': self.img,
+            'time': self.addtime,
+            'like_count': self.likes.count(),
+            'comment': self.comments.count(),
+            'link_': {
+                'avatar': self.send_avatar(),
+                'username': self.role.username
+            },
+        }
+        return data
+
     def send_avatar(self):
         if self.role.avatar:
-            avatar = self.role.avatar
+            avatar = 'http://127.0.0.1:5000/static/'+self.role.avatar
         else:
             avatar = self.role.default_avatar
 
@@ -209,12 +227,10 @@ class Article(db.Model):
 
     @property
     def filter_c(self):
-        comments = Comment.query.filter_by(article_id=self.id).all()
-        return [comment.to_json() for comment in comments]
+        return [comment.to_json() for comment in self.comments.all()]
 
     def filter_l(self):
-        likes = Likes.query.filter_by(article_id=self.id).all()
-        return [like.to_like() for like in likes]
+        return [like.to_like() for like in self.likes.all()]
 
     @staticmethod
     def on_change_body(target, value, oldvalue, initator):
@@ -292,13 +308,15 @@ class Comment(db.Model):
     reply = db.relationship('Reply', backref='comments', lazy='dynamic')
     likes = db.relationship('LikeComment', backref='comments', lazy='dynamic')
 
-    def to_json(self):
+    def to_json(self,*args):
         data = {
             'id': self.id,
             'article_id': self.article_id,
             'user_id': self.user_id,
             'body': self.body,
             'time': self.time,
+            'liked':'',
+            'likes':self.likes.count(),
             '_link': {
                 'avatar': self.send_avatar(),
                 'username': self.author.username
@@ -328,17 +346,16 @@ class Comment(db.Model):
 
         return img
 
-    def show_title(self):
-
-        return self.article.tittle
-
     def send_avatar(self):
         if self.author.avatar:
-            avatar = self.author.avatar
+            avatar = 'http://127.0.0.1:5000/static/'+self.author.avatar
         else:
             avatar = self.author.default_avatar
 
         return avatar
+
+
+
 
 
 
@@ -374,7 +391,7 @@ class Reply(db.Model):
 
     def send_avatar(self):
         if self.author.avatar:
-            avatar = self.author.avatar
+            avatar = 'http://127.0.0.1:5000/static/'+self.author.avatar
         else:
             avatar = self.author.default_avatar
         return avatar
@@ -410,7 +427,7 @@ class LikeComment(db.Model):
 
     def send_avatar(self):
         if self.author.avatar:
-            avatar = self.author.avatar
+            avatar = 'http://127.0.0.1:5000/static/'+self.author.avatar
         else:
             avatar = self.author.default_avatar
 

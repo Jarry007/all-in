@@ -455,10 +455,12 @@ def vue_list():
 
 @app.route('/mp/posts', methods=['POST', 'GET'])
 def get_posts():
-    page = request.values.get('page', 1, type=int)
+    info = request.values.get('info')
+    user_info = json.loads(info)
+    page = user_info['page']
     posts_ = Article.query.paginate(page, per_page=6, error_out=False)
     return jsonify({
-        'posts': [post.to_dict() for post in posts_.items]
+        'posts': [post.to_json() for post in posts_.items]
     })
 @app.route('/mp/new', methods=['POST', 'GET'])
 def get_news():
