@@ -70,6 +70,8 @@ def friends_circle():
 def load_user(user_id):
     return Role.query.get(int(user_id))
 
+
+
 def md5(data):
     md = hashlib.md5()
     md.update(data.encode('utf-8'))
@@ -455,120 +457,144 @@ def vue_list():
 
 @app.route('/mp/posts', methods=['POST', 'GET'])
 def get_posts():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    page = user_info['page']
-    posts_ = Article.query.paginate(page, per_page=6, error_out=False)
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        page = user_info['page']
+        posts_ = Article.query.paginate(page, per_page=6, error_out=False)
     return jsonify({
         'posts': [post.to_json() for post in posts_.items]
     })
 @app.route('/mp/new', methods=['POST', 'GET'])
 def get_news():
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
 
-    new_ = Article.query.order_by(Article.view.desc()).limit(4).all()
+    if receive == appid:
+        new_ = Article.query.order_by(Article.view.desc()).limit(4).all()
     return jsonify({
         'news': [new.to_dict() for new in new_]
     })
 
 @app.route('/mp/login', methods=['GET','POST'])
 def mp_login():
-    info = request.values.get('info')
     appid = os.environ.get('APP_ID')
-    secret = os.environ.get('MP_KEY')
-    user_info = json.loads(info)
-    code = user_info['code']
-    url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code' % (
-        appid, secret, code)
-    data = requests.get(url).text
-    session_ = json.loads(data)
-    session_key = session_['session_key']
-    encryptedData = user_info['encryptedData']
-    iv = user_info['iv']
-    pc = WXBizDataCrypt(appid, session_key)
-    da = json.loads(pc.decrypt(encryptedData, iv).data)
-    mp_id = md5(da['openId'])
-    print(mp_id)
-    user = Role.query.filter_by(uuid=mp_id).first()
-    if not user:
-        mp = Role()
-        mp.uuid = mp_id
-        mp.pwd = md5(str(datetime.now()))
-        mp.username = da['nickName']
-        mp.default_avatar = da['avatarUrl']
-        mp.email = da['openId']
-        db.session.add(mp)
-        db.session.commit()
+    receive = json.loads(request.values.get('appid'))
+    print(receive)
+    if receive == appid:
+        info = request.values.get('info')
+        appid = os.environ.get('APP_ID')
+        secret = os.environ.get('MP_KEY')
+        user_info = json.loads(info)
+        code = user_info['code']
+        url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code' % (
+            appid, secret, code)
+        data = requests.get(url).text
+        session_ = json.loads(data)
+        session_key = session_['session_key']
+        encryptedData = user_info['encryptedData']
+        iv = user_info['iv']
+        pc = WXBizDataCrypt(appid, session_key)
+        da = json.loads(pc.decrypt(encryptedData, iv).data)
+        mp_id = md5(da['openId'])
+        print(mp_id)
+        user = Role.query.filter_by(uuid=mp_id).first()
+        if not user:
+            mp = Role()
+            mp.uuid = mp_id
+            mp.pwd = md5(str(datetime.now()))
+            mp.username = da['nickName']
+            mp.default_avatar = da['avatarUrl']
+            mp.email = da['openId']
+            db.session.add(mp)
+            db.session.commit()
 
-    return pc.decrypt(encryptedData, iv)
+        return pc.decrypt(encryptedData, iv)
 
 @app.route('/mp/like', methods=['GET', 'POST'])
 def mp_like():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    wx_name = md5(user_info['openId'])
-    num = user_info['num']
-    user = Role.query.filter_by(uuid=wx_name).first()
-    article = Article.query.filter_by(id=num).first()
-    article.view += 1
-    db.session.commit()
-    if user.is_liked(num):
-        user.unlike(num)
-    else:
-        user.like(num)
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
 
-    return jsonify(article.to_dict())
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        num = user_info['num']
+        user = Role.query.filter_by(uuid=wx_name).first()
+        article = Article.query.filter_by(id=num).first()
+        article.view += 1
+        db.session.commit()
+        if user.is_liked(num):
+            user.unlike(num)
+        else:
+            user.like(num)
+
+        return jsonify(article.to_dict())
 
 @app.route('/mp/like_comment', methods=['GET', 'POST'])
 def mp_like_comment():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    wx_name = md5(user_info['openId'])
-    num = user_info['num']
-    user = Role.query.filter_by(uuid=wx_name).first()
-    comment = Comment.query.filter_by(id=num).first()
-    if user.is_liked_comment(num):
-        user.unlike_comment(num)
-    else:
-        user.like_comment(num)
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        num = user_info['num']
+        user = Role.query.filter_by(uuid=wx_name).first()
+        comment = Comment.query.filter_by(id=num).first()
+        if user.is_liked_comment(num):
+            user.unlike_comment(num)
+        else:
+            user.like_comment(num)
 
-    return jsonify(comment.to_json())
+        return jsonify(comment.to_json())
 
 @app.route('/mp/notice', methods=['POST','GET'])
 def mp_notice():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    page = user_info['page'] or 1
-    wx_name = md5(user_info['openId'])
-    user = Role.query.filter_by(uuid=wx_name).first()
-   # count = user.new_comment_like()
-    #用户所有评论
-    all_comment_id = [coment.id for coment in user.comments.all()]
-    #每条评论收到的赞
-    comment_like = LikeComment.query.filter(LikeComment.comment_id.in_(all_comment_id)).order_by(
-        LikeComment.time.desc()).paginate(page, per_page=10, error_out=False)
-    data = [like.to_like_comment() for like in comment_like.items]
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        page = user_info['page'] or 1
+        wx_name = md5(user_info['openId'])
+        user = Role.query.filter_by(uuid=wx_name).first()
+       # count = user.new_comment_like()
+        #用户所有评论
+        all_comment_id = [coment.id for coment in user.comments.all()]
+        #每条评论收到的赞
+        comment_like = LikeComment.query.filter(LikeComment.comment_id.in_(all_comment_id)).order_by(
+            LikeComment.time.desc()).paginate(page, per_page=10, error_out=False)
+        data = [like.to_like_comment() for like in comment_like.items]
 
-    user.last_comment_like_time = datetime.now()
-    db.session.commit()
+        user.last_comment_like_time = datetime.now()
+        db.session.commit()
 
-    return jsonify({
-        'all':data
-    })
+        return jsonify({
+            'all':data
+        })
 @app.route('/mp/notice_reply', methods=['POST','GET'])
 def mp_notice_reply():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    page = user_info['page']
-    wx_name = md5(user_info['openId'])
-    user = Role.query.filter_by(uuid=wx_name).first()
-    all_comment_id = [coment.id for coment in user.comments.all()]
-    comment_reply = Reply.query.filter(Reply.comment_id.in_(all_comment_id)).order_by(
-        Reply.time.desc()).paginate(page,per_page=10, error_out=False
-    )
-    data = [reply.to_json() for reply in comment_reply.items]
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        page = user_info['page']
+        wx_name = md5(user_info['openId'])
+        user = Role.query.filter_by(uuid=wx_name).first()
+        all_comment_id = [coment.id for coment in user.comments.all()]
+        comment_reply = Reply.query.filter(Reply.comment_id.in_(all_comment_id)).order_by(
+            Reply.time.desc()).paginate(page,per_page=10, error_out=False
+        )
+        data = [reply.to_json() for reply in comment_reply.items]
 
-    user.last_reply_read_time = datetime.now()
-    db.session.commit()
+        user.last_reply_read_time = datetime.now()
+        db.session.commit()
 
     return jsonify({
         'all':data
@@ -576,73 +602,113 @@ def mp_notice_reply():
 
 @app.route('/mp/all_notice', methods=['POST','GET'])
 def mp_all_notice():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    wx_name = md5(user_info['openId'])
-    user = Role.query.filter_by(uuid=wx_name).first()
-    all_comment_id = [coment.id for coment in user.comments.all()]
-    comment_like = LikeComment.query.filter(LikeComment.comment_id.in_(all_comment_id)).order_by(
-        LikeComment.time.desc()).paginate(1, per_page=10, error_out=False)
-    comment_reply = Reply.query.filter(Reply.comment_id.in_(all_comment_id)).order_by(
-        Reply.time.desc()).paginate(1, per_page=10, error_out=False
-                                    )
-    data = [reply.to_json() for reply in comment_reply.items]
-    data1 = [like.to_like_comment() for like in comment_like.items]
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
 
-    return jsonify({
-        'reply':data,
-        'like':data1
-    })
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        user = Role.query.filter_by(uuid=wx_name).first()
+        all_comment_id = [coment.id for coment in user.comments.all()]
+        comment_like = LikeComment.query.filter(LikeComment.comment_id.in_(all_comment_id)).order_by(
+            LikeComment.time.desc()).paginate(1, per_page=10, error_out=False)
+        comment_reply = Reply.query.filter(Reply.comment_id.in_(all_comment_id)).order_by(
+            Reply.time.desc()).paginate(1, per_page=10, error_out=False
+                                        )
+        data = [reply.to_json() for reply in comment_reply.items]
+        data1 = [like.to_like_comment() for like in comment_like.items]
 
+        return jsonify({
+            'reply':data,
+            'like':data1
+        })
+@app.route('/mp/reply', methods=['POST','GET'])
+def mp_reply():
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        num = user_info['num']
+        user = Role.query.filter_by(uuid=wx_name).first()
+        comment = Comment.query.filter_by(id=num).first()
+        if user:
+            reply = Reply()
+            reply.comment_id = num
+            reply.replies_id = wx_name
+            reply.body = user_info['wx_reply']
+            db.session.add(reply)
+            db.session.commit()
+
+        return jsonify(comment.to_json())
 
 @app.route('/mp/comment',methods=['POST','GET'])
 def mp_comment():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    wx_name = md5(user_info['openId'])
-    num = user_info['num']
-    user = Role.query.filter_by(uuid=wx_name).first()
-    article = Article.query.filter_by(id=num).first()
-    if user :
-        article.view += 1
-        comment = Comment()
-        comment.body = user_info['wx_comment']
-        comment.user_id = wx_name
-        comment.article_id = user_info['num']
-        db.session.add(comment)
-        db.session.commit()
-    return jsonify(article.to_dict())
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        num = user_info['num']
+        user = Role.query.filter_by(uuid=wx_name).first()
+        article = Article.query.filter_by(id=num).first()
+        if user :
+            article.view += 1
+            comment = Comment()
+            comment.body = user_info['wx_comment']
+            comment.user_id = wx_name
+            comment.article_id = user_info['num']
+            db.session.add(comment)
+            db.session.commit()
+        return jsonify(article.to_dict())
 
 @app.route('/mp/my_say', methods=['POST','GET'])
 def mp_my_say():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    wx_name = md5(user_info['openId'])
-    user = Role.query.filter_by(uuid=wx_name).first()
-    comments = user.comments.order_by(Comment.time.desc())
-    return jsonify({
-        'all':[comment.to_say() for comment in comments]
-    })
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        page = user_info['page']
+        user = Role.query.filter_by(uuid=wx_name).first()
+        comments = user.comments.order_by(Comment.time.desc()).paginate(page, per_page=10, error_out=False)
+        return jsonify({
+            'all':[comment.to_say() for comment in comments.items]
+        })
 @app.route('/mp/my_like', methods=['POST','GET'])
 def mp_my_like():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    wx_name = md5(user_info['openId'])
-    user = Role.query.filter_by(uuid=wx_name).first()
-    likes = user.likes.order_by(Likes.time.desc())
-    return jsonify({
-        'all':[like.to_like() for like in likes]
-    })
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        wx_name = md5(user_info['openId'])
+        user = Role.query.filter_by(uuid=wx_name).first()
+        likes = user.likes.order_by(Likes.time.desc())
+        return jsonify({
+            'all':[like.to_like() for like in likes]
+        })
 
 @app.route('/mp/refresh', methods=['POST','GET'])
 def mp_refresh():
-    info = request.values.get('info')
-    user_info = json.loads(info)
-    num = user_info['num']
-    article = Article.query.filter_by(id=num).first()
-    article.view += 1
-    db.session.commit()
-    return jsonify(article.to_dict())
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        num = user_info['num']
+        article = Article.query.filter_by(id=num).first()
+        article.view += 1
+        db.session.commit()
+        return jsonify(article.to_dict())
 
 @app.route('/guaguaka', methods=['POST', 'GET'])
 def guaguaka():

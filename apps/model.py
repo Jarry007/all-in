@@ -308,7 +308,7 @@ class Comment(db.Model):
     reply = db.relationship('Reply', backref='comments', lazy='dynamic')
     likes = db.relationship('LikeComment', backref='comments', lazy='dynamic')
 
-    def to_json(self,*args):
+    def to_json(self):
         data = {
             'id': self.id,
             'article_id': self.article_id,
@@ -316,16 +316,21 @@ class Comment(db.Model):
             'body': self.body,
             'time': self.time,
             'liked':'',
+            'liker':self.show_liker(),
             'likes':self.likes.count(),
             '_link': {
                 'avatar': self.send_avatar(),
                 'username': self.author.username
             },
+            'reply_num':self.reply.count(),
             'replies': {
                 'r': self.filter_reply
             }
         }
         return data
+    def show_liker(self):
+        return [liker.show_like() for liker in self.likes.all()]
+
     def to_say(self):
         data={
             'id' :self.id,
@@ -334,7 +339,8 @@ class Comment(db.Model):
             'body':self.body,
             'user_id': self.user_id,
             'time': self.time,
-            'img':self.send_img()
+            'avatar': self.send_avatar(),
+            'user_name': self.author.username
         }
 
         return data
@@ -432,6 +438,14 @@ class LikeComment(db.Model):
             avatar = self.author.default_avatar
 
         return avatar
+
+    def show_like(self):
+        data = {
+            'id':self.id,
+            'user_id':self.user_id
+        }
+
+        return data
 
     def is_new(self,time):
         if self and self.time > time:
