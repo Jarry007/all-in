@@ -623,6 +623,20 @@ def mp_all_notice():
             'reply':data,
             'like':data1
         })
+@app.route('/mp/delete_comment', methods=['POST','GET'])
+def mp_delete_comment():
+    appid = os.environ.get('APP_ID')
+    receive = json.loads(request.values.get('appid'))
+    if receive == appid:
+        info = request.values.get('info')
+        user_info = json.loads(info)
+        num = user_info['num']
+        comment = Comment.query.filter_by(id=num).first()
+        db.session.delete(comment)
+        db.session.commit()
+        return 'success'
+
+
 @app.route('/mp/reply', methods=['POST','GET'])
 def mp_reply():
     appid = os.environ.get('APP_ID')
