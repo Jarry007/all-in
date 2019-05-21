@@ -15,14 +15,18 @@ Profile
 {% endblock%}
 {% block post %}
 
-<aside class="col-md-9">
+<aside class="col-md-6">
     <form action="/profile" method="post" enctype="multipart/form-data">
         {{form.csrf_token}}
     <div class="col-md-6">
         {{form.avatar.label}}-{{form.avatar}}
+        <p>
         昵称： {{form.nickname}}
+        </p>
+        <p>
         性别：{{form.gender}}
-        简洁：{{form.intro}}
+        </p>
+        简介：{{form.intro}}
         <div id="birth">
             <template>
                 <div class="block">

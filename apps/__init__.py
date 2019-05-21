@@ -37,7 +37,7 @@ app.config.update(
 app.config['UPLOADS_RELATIVE'] = 'uploads'
 app.config['UPLOADS_FOLDER'] = os.path.join(STATIC_DIR, app.config['UPLOADS_RELATIVE'])
 app.config['UPLOADED_PHOTOS_DEST'] = app.config['UPLOADS_FOLDER']
-
+print(app.config['UPLOADS_FOLDER'])
 
 
 

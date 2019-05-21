@@ -454,23 +454,30 @@ def vue_list():
         t.append(i.to_json())
     return jsonify(t)
 
+@app.route('/test_json', methods=['POST','GET'])
+def test_json():
+    page = 1
+    p = Article.query.order_by(Article.addtime.desc()).paginate(page, per_page=6, error_out=False)
+    return jsonify({
+        'p':[post.to_dict() for post in p.items]
+    })
 
 @app.route('/mp/posts', methods=['POST', 'GET'])
 def get_posts():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
         info = request.values.get('info')
         user_info = json.loads(info)
         page = user_info['page']
-        posts_ = Article.query.paginate(page, per_page=6, error_out=False)
+        posts_ = Article.query.order_by(Article.addtime.desc()).paginate(page, per_page=6, error_out=False)
     return jsonify({
         'posts': [post.to_json() for post in posts_.items]
     })
 @app.route('/mp/new', methods=['POST', 'GET'])
 def get_news():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -481,7 +488,7 @@ def get_news():
 
 @app.route('/mp/login', methods=['GET','POST'])
 def mp_login():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
     print(receive)
     if receive == appid:
@@ -498,6 +505,7 @@ def mp_login():
         encryptedData = user_info['encryptedData']
         iv = user_info['iv']
         pc = WXBizDataCrypt(appid, session_key)
+        print(pc)
         da = json.loads(pc.decrypt(encryptedData, iv).data)
         mp_id = md5(da['openId'])
         print(mp_id)
@@ -516,7 +524,7 @@ def mp_login():
 
 @app.route('/mp/like', methods=['GET', 'POST'])
 def mp_like():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -532,12 +540,11 @@ def mp_like():
             user.unlike(num)
         else:
             user.like(num)
-
         return jsonify(article.to_dict())
 
 @app.route('/mp/like_comment', methods=['GET', 'POST'])
 def mp_like_comment():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -555,7 +562,7 @@ def mp_like_comment():
 
 @app.route('/mp/notice', methods=['POST','GET'])
 def mp_notice():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -574,12 +581,12 @@ def mp_notice():
         user.last_comment_like_time = datetime.now()
         db.session.commit()
 
-        return jsonify({
+    return jsonify({
             'all':data
         })
 @app.route('/mp/notice_reply', methods=['POST','GET'])
 def mp_notice_reply():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -602,7 +609,7 @@ def mp_notice_reply():
 
 @app.route('/mp/all_notice', methods=['POST','GET'])
 def mp_all_notice():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -625,7 +632,7 @@ def mp_all_notice():
         })
 @app.route('/mp/delete_comment', methods=['POST','GET'])
 def mp_delete_comment():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -639,7 +646,7 @@ def mp_delete_comment():
 
 @app.route('/mp/reply', methods=['POST','GET'])
 def mp_reply():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -661,9 +668,8 @@ def mp_reply():
 
 @app.route('/mp/comment',methods=['POST','GET'])
 def mp_comment():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
-
     if receive == appid:
         info = request.values.get('info')
         user_info = json.loads(info)
@@ -683,7 +689,7 @@ def mp_comment():
 
 @app.route('/mp/my_say', methods=['POST','GET'])
 def mp_my_say():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -697,9 +703,9 @@ def mp_my_say():
         })
 @app.route('/mp/my_like', methods=['POST','GET'])
 def mp_my_like():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
-
+    print(request.values)
     if receive == appid:
         info = request.values.get('info')
         user_info = json.loads(info)
@@ -712,7 +718,7 @@ def mp_my_like():
 
 @app.route('/mp/refresh', methods=['POST','GET'])
 def mp_refresh():
-    appid = os.environ.get('APP_ID')
+    appid = 'wx41756aa8716ef1b9'
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -723,6 +729,30 @@ def mp_refresh():
         article.view += 1
         db.session.commit()
         return jsonify(article.to_dict())
+
+@app.route('/mp/send_mail', methods=['POST','GET'])
+def mp_send_mail():
+    appid = 'wx41756aa8716ef1b9'
+    receive = request.headers['Appid']
+    if receive == appid:
+        says = json.loads(request.values.get('iss'))
+        imgs = request.files.get('imgs')
+        print(says)
+        send = Message('小程序反馈', sender='1623332700@qq.com', recipients=['940615834@qq.com'])
+        if imgs is not None:
+            fn = time.strftime('%Y%m%d%H%M%S') + '_%d' % random.randint(0, 100) + '.png'
+            creat_folder(os.path.join(app.config['UPLOADS_FOLDER'],'iss'))
+            pic_folder = os.path.join(app.config['UPLOADS_FOLDER'],'iss',fn)
+            img = Image.open(imgs)
+            img.save(pic_folder)
+            with app.open_resource(pic_folder) as f:
+                send.attach('pic.png','image/png',f.read())
+        send.html= "<div><p>{}</p></div>" .format(says)
+        thread = Thread(target=send_async_email, args=[app, send])
+        thread.start()
+        return 'success'
+
+
 
 @app.route('/guaguaka', methods=['POST', 'GET'])
 def guaguaka():

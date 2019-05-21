@@ -1,6 +1,10 @@
 {% extends "test.html" %}
 {% import "_macros.html" as mr%}
 
+{% block title%}
+<h3>博客广场</h3>
+<p>这注定是一个不同寻常的时刻</p>
+{% endblock %}
 {% block post %}
 <div class="col-lg-9">
     {% for post in posts %}

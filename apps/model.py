@@ -391,7 +391,7 @@ class Reply(db.Model):
             'user_name': self.author.username,
             'article_id': self.comments.article_id,
             'user_avatar': self.send_avatar(),
-            'new': self.is_new(self.author.last_reply_read_time or datetime(1900, 1, 1))
+            'new': self.is_new(self.comments.author.last_reply_read_time or datetime(1900, 1, 1))
         }
         return data
 
@@ -427,7 +427,7 @@ class LikeComment(db.Model):
             'time': self.time,
             'article_id': self.comments.article_id,
             'user_avatar':self.send_avatar(),
-            'new':self.is_new(self.author.last_comment_like_time or datetime(1900, 1, 1))
+            'new':self.is_new(self.comments.author.last_comment_like_time or datetime(1900, 1, 1))
         }
         return data
 
