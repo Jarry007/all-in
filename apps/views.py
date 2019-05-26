@@ -931,3 +931,10 @@ def comment_notice():
     current_user.last_comment_read_time = datetime.now()
     db.session.commit()
     return render_template('comment_notice.html', comments= comments)
+
+@app.route('/ajaxcomment', methods=['POST','GET'])
+@login_required
+def ajaxcomment():
+    data = request.form
+    print(data)
+    return 'success'

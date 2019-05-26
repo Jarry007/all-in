@@ -165,10 +165,39 @@
 						{{form.submit(class='btn btn-info',placeholder='点此输入评论')}}
                                         </span>
                     </form>
+                    <form class="input-group"  id="ajaxcomment"  method="post">
+                        {{form.csrf_token}}
+                        {{form.body(class='form-control')}}
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success" onclick="sendcomment()">发送</button>
+                                        </span>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 {%endblock%}
+
+{%block script%}
+{{super()}}
+<script src="https://code.jquery.com/jquery-3.4.1.js">
+
+function sendcomment(){
+    varifyinput();
+    var form_ = new FormData(document.getElementById("ajaxcomment"));
+    console.log(form_)
+    $.ajax({
+        url:'{{ajaxcomment}}',
+        data:form_,
+        methods:"POST",
+        success:res=>{
+            console.log(res)
+        }
+
+    })
+
+}
+</script>
+{% endblock %}
 

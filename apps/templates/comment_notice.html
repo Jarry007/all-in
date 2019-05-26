@@ -1,31 +1,4 @@
 {% extends "test.html" %}
- <div id="app">
-        <div class="block">
-            <el-timeline>
-                {% for j in comments%}
-                <el-timeline-item timestamp="{{{j.time}}" placement="top">
-                    <el-card>
-                        <h6><a href="{{url_for('posts',id=art.id)}}"><p>{{art.tittle}}</p></a></h6>
-                        <div class="blog_allin_foot">
-                            <div class="blog_text_li">
-                                <a href="{{url_for('like',id=art.id)}}">点赞</a>
-                                <i class="fa fa-thumbs-o-up" aria-hidden="true"> ：</i>{{art.likes.count()}}
-                            </div>
-                            <div class="blog_text_li">评论
-                                <i class="fa fa-commenting-o" aria-hidden="true"> ：</i>{{art.comments.count()}}
-                            </div>
-                            <div class="blog_text_li">
-                                <a href="{{url_for('posts',id=art.id)}}">浏览</a>
-                                <i class="fa fa-street-view" aria-hidden="true"> ：</i>{{art.view}}
-                            </div>
-                        </div>
-                    </el-card>
-                </el-timeline-item>
-                {% endfor %}
-            </el-timeline>
-
-        </div>
-    </div>
 
 <div>
     <p><a></a></p>
@@ -40,6 +13,6 @@
 {%block script%}
 {{super()}}
 <script>
-        new Vue().$mount('#app')
+
     </script>
 {% endblock %}

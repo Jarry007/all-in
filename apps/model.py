@@ -297,6 +297,16 @@ class IpList(db.Model):
     adders = db.Column(db.String(300))
     time = db.Column(db.DATETIME, index=True, default=datetime.now)
 
+    def to_json(self):
+        data={
+            'id':self.id,
+            'ip':self.ip,
+            'agent':self.agent,
+            'adders':self.adders,
+            'time':self.time
+        }
+        return data
+
 
 class Comment(db.Model):
     __tablename__ = 'comments1'
