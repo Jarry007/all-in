@@ -1,0 +1,56 @@
+{% extends "test.html"%}
+{% block tittle %}
+<title>写博客</title>
+{% endblock %}
+{% block head%}
+{{super()}}
+<link rel="stylesheet" href="{{ url_for('static',filename='markd/css/editormd.min.css') }}"/>
+{% endblock %}
+
+{% block title%}
+<h3>写博客</h3>
+<p>愿所有美好都能被记录</p>
+{% endblock %}
+
+{% block post %}
+
+<div class="col-lg-10">
+    <form method="post" class="form" action="{{url_for('editpost', id= id)}}" enctype="multipart/form-data">
+        {{form.csrf_token}}
+        <div class="form-group  required">
+
+            <label class="control-label">{{form.pic.label}}</label>{{form.pic}}
+            <p>
+                <label class="control-label">{{form.title.label}}</label></p>{{form.title(class='form-control')}}
+            <label class="control-label">{{form.body.label}}</label>
+<div id="markdown" >
+              {{form.body(style='display:none')}}
+</div>
+            {{form.submit(class='btn btn-success')}}
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{%block col%}
+{% endblock %}
+
+{% block script%}
+{{ super() }}
+<script src="{{ url_for('static',filename='markd/editormd.min.js') }}"></script>
+<script type="text/javascript">
+    var markEditor;
+
+    $(function () {
+        markEditor = editormd("markdown", {
+            width: "100%",
+            height: 640,
+            syncScrolling: "single",
+            path: "{{ url_for('static',filename='markd/lib/') }}",
+            imageUpload : true,
+            imageFormats : [ "jpg", "jpeg", "gif", "png", "bmp", "webp" ],
+            imageUploadURL : "{{ url_for('e_upload') }}",
+        });
+    });
+</script>
+{% endblock %}

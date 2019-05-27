@@ -938,3 +938,20 @@ def ajaxcomment():
     data = request.form
     print(data)
     return 'success'
+
+@app.route('/editpost/<int:id>', methods=['POST','GET'])
+@login_required
+def editpost(id):
+    post = Article.query.filter_by(id=id).first()
+    form = Mark()
+    if current_user == post.role:
+        if form.validate_on_submit():
+            post.body = form.body.data
+            db.session.commit()
+            return redirect(url_for('posts', id=id))
+    form.body.data = post.body
+    form.title.data = post.tittle
+
+    return render_template('edit.html', form=form, id=id)
+
+

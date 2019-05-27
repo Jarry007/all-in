@@ -78,6 +78,8 @@
                 <li>评论 <i class="fa fa-commenting-o" aria-hidden="true"> : </i> <span> {{posts.comments.count()}}</span> <a class="more_btn" data-toggle="collapse" data-target="#collapseComment" href="#">评 </a>
                 </li>
                 <li>浏览量 <i class="fa fa-street-view" aria-hidden="true"> : <span>{{posts.view}}</span></i></li>
+                <li><a class="more_btn" href="{{url_for('editpost', id=posts.id)}}"> 编辑 </a>
+                </li>
             </ul>
         </div>
     </div>
