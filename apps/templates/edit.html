@@ -1,6 +1,6 @@
 {% extends "test.html"%}
 {% block tittle %}
-<title>写博客</title>
+<title>编辑</title>
 {% endblock %}
 {% block head%}
 {{super()}}
@@ -8,14 +8,14 @@
 {% endblock %}
 
 {% block title%}
-<h3>写博客</h3>
-<p>愿所有美好都能被记录</p>
+<h3>编辑</h3>
+<p>下一次，我会更完美</p>
 {% endblock %}
 
 {% block post %}
 
 <div class="col-lg-10">
-    <form method="post" class="form" action="{{url_for('editpost', id= id)}}" enctype="multipart/form-data">
+    <form method="post" class="form" action="/" enctype="multipart/form-data">
         {{form.csrf_token}}
         <div class="form-group  required">
 

@@ -464,7 +464,7 @@ def test_json():
 
 @app.route('/mp/posts', methods=['POST', 'GET'])
 def get_posts():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -488,15 +488,15 @@ def get_news():
 
 @app.route('/mp/login', methods=['GET','POST'])
 def mp_login():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
-    print(receive)
+   # print(receive)
     if receive == appid:
         info = request.values.get('info')
         appid = os.environ.get('APP_ID')
         secret = os.environ.get('MP_KEY')
         user_info = json.loads(info)
-        code = user_info['code']
+        code =  user_info['code']
         url = 'https://api.weixin.qq.com/sns/jscode2session?appid=%s&secret=%s&js_code=%s&grant_type=authorization_code' % (
             appid, secret, code)
         data = requests.get(url).text
@@ -524,7 +524,7 @@ def mp_login():
 
 @app.route('/mp/like', methods=['GET', 'POST'])
 def mp_like():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -544,7 +544,7 @@ def mp_like():
 
 @app.route('/mp/like_comment', methods=['GET', 'POST'])
 def mp_like_comment():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -586,7 +586,7 @@ def mp_notice():
         })
 @app.route('/mp/notice_reply', methods=['POST','GET'])
 def mp_notice_reply():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -609,7 +609,7 @@ def mp_notice_reply():
 
 @app.route('/mp/all_notice', methods=['POST','GET'])
 def mp_all_notice():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -632,7 +632,7 @@ def mp_all_notice():
         })
 @app.route('/mp/delete_comment', methods=['POST','GET'])
 def mp_delete_comment():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -646,7 +646,7 @@ def mp_delete_comment():
 
 @app.route('/mp/reply', methods=['POST','GET'])
 def mp_reply():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -668,7 +668,7 @@ def mp_reply():
 
 @app.route('/mp/comment',methods=['POST','GET'])
 def mp_comment():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -689,7 +689,7 @@ def mp_comment():
 
 @app.route('/mp/my_say', methods=['POST','GET'])
 def mp_my_say():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
     if receive == appid:
         info = request.values.get('info')
@@ -703,7 +703,7 @@ def mp_my_say():
         })
 @app.route('/mp/my_like', methods=['POST','GET'])
 def mp_my_like():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
     print(request.values)
     if receive == appid:
@@ -718,7 +718,7 @@ def mp_my_like():
 
 @app.route('/mp/refresh', methods=['POST','GET'])
 def mp_refresh():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = json.loads(request.values.get('appid'))
 
     if receive == appid:
@@ -732,7 +732,7 @@ def mp_refresh():
 
 @app.route('/mp/send_mail', methods=['POST','GET'])
 def mp_send_mail():
-    appid = 'wx41756aa8716ef1b9'
+    appid = os.environ.get('APP_ID')
     receive = request.headers['Appid']
     if receive == appid:
         says = json.loads(request.values.get('iss'))
