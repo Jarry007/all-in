@@ -38,7 +38,7 @@ MarkupSafe==1.0
 matplotlib==2.2.2
 mysql-connector-python==8.0.6
 numpy==1.16.2
-Pillow==5.4.1
+Pillow==8.3.2
 pycparser==2.19
 pycryptodome==3.8.1
 PyMySQL==0.9.3
