@@ -37,7 +37,7 @@ Markdown==3.0.1
 MarkupSafe==1.0
 matplotlib==2.2.2
 mysql-connector-python==8.0.6
-numpy==1.16.2
+numpy==1.22.0
 Pillow==5.4.1
 pycparser==2.19
 pycryptodome==3.8.1
