@@ -32,7 +32,7 @@ itsdangerous==0.24
 Jinja2==2.10
 kiwisolver==1.0.1
 lml==0.0.2
-Mako==1.0.7
+Mako==1.2.2
 Markdown==3.0.1
 MarkupSafe==1.0
 matplotlib==2.2.2
